@@ -1,6 +1,0 @@
-gunicorn
-flask
-PyMySQL
-json5
-requests
-psycopg2

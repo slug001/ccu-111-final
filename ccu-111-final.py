@@ -18,8 +18,7 @@ def home():
         all_data=cursor.fetchall()
         cursor.close()
         conn.close()
-        #repeat=all_data
-        return render_template("home.html")
+        return render_template("home.html",repeat=all_data)
     else:
         #user_position=request.values['input']
 

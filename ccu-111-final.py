@@ -124,7 +124,7 @@ def recommend():
     target_data=[list(i) for i in target_data]
     target_data=target_data[0]
     restaurant_len=int(len(target_data))
-    
+    """
     for i in range(1,restaurant_len):
         if(target_data[i]!= None):
             target_len+=int(target_data[i])*int(target_data[i])
@@ -150,8 +150,8 @@ def recommend():
         if(final_cos>max):
             max=final_cos
             max_name=i[0]
-        
-    return render_template("home.html",recommend=max_name)
+    """
+    return render_template("home.html",recommend=target_data)
 
 
 if __name__ == 'main':

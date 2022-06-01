@@ -133,25 +133,28 @@ def recommend():
     all_data=[list(i) for i in all_data]
 
     max=0;max_name=0
-    """
+    
     for i in all_data:
-        other_len=0;all_cos=0
+        other_len=0;all_cos=0;final_cos=0
         if(i[0]==name):
             continue
         for j in range(1,restaurant_len):
+            #計算長度以及cos
+            if(i[j]!=None):
+                other_len+=int(i[j])*int(i[j])
             if(i[j]==None or target_data[j]==None):
                 continue
-            other_len+=int(i[j])*int(i[j])
             all_cos+=int(i[j])*int(target_data[j])
-
-        other_len=round(math.sqrt(other_len),4)
-        final_cos=float(all_cos)/float(other_len)*float(target_len)
+        #如果夾角為零則不用計算
+        if(other_len>0 and all_cos>0):
+            other_len=round(math.sqrt(other_len),4)
+            final_cos=float(all_cos)/float(other_len)*float(target_len)
         
         if(final_cos>max):
             max=final_cos
             max_name=i[0]
-    """
-    return render_template("home.html",recommend=all_data)
+    
+    return render_template("home.html",recommend=max_name)
 
 
 if __name__ == 'main':

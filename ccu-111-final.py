@@ -22,7 +22,7 @@ def home():
         conn.close()
         all_data=json.dumps(all_data)
         """
-        return render_template("home.html",repeat=all_data)
+        return render_template("home.html")
     else:
         #user_position=request.values['input']
 

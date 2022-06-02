@@ -29,10 +29,10 @@ def home():
         conn.close()
         all_data=json.dumps(all_data)
         """
-        session['session_password']='bbbb'
+        #session['session_password']='bbbb'
         key=session.get('session_password')
-        #if key is None:
-        #    key='小魔女最討厭來路不明的怪叔叔了'
+        if (key == None):
+            key='小魔女最討厭來路不明的怪叔叔了'
         return render_template("home.html",repeat=key)
     else:
         #user_position=request.values['input']

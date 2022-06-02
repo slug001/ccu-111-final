@@ -122,10 +122,7 @@ def recommend():
     sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=name)
     cursor.execute(sql)
     target_data=cursor.fetchall()
-    """
-    cursor.close()
-    conn.close()
-    """
+
     #計算資料長度和轉換格式
     target_len=0
     target_data=[list(i) for i in target_data]
@@ -160,11 +157,17 @@ def recommend():
             final_cos=float(all_cos)/float(other_len)*float(target_len)
         #如果人數小於五就增加，大於則比較
         if(len(max_cos)>=5):
+            if(final_cos>min(max_cos)):
+                switch=max_cos.index(min(max_cos))
+                max_cos[switch]=final_cos
+                max_name[switch]=i[0]
+            """
             for j in range(len(max_cos)):        
                 if(final_cos>max_cos[j]):
                     max_cos[j]=final_cos
                     max_name[j]=i[0]
                     break
+            """
         elif(other_len>0 and all_cos>0):
             max_cos.append(final_cos)
             max_name.append(i[0])
@@ -178,15 +181,39 @@ def recommend():
         recommend_data.append(list(tmp_data[0]))
     
     #先抓餐廳名稱，再找出共同喜愛的幾家餐廳
+    best_rest_rank=[];best_rest_name=[]
     sql="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='restaurant_data'"
     cursor.execute(sql)
     all_restaurant_name=cursor.fetchall()
     all_restaurant_name=[i[0] for i in all_restaurant_name]
-    
+    #執行次數=店家數量
+    for i in range(1,len(all_restaurant_name)):
+        total_score=0;rank_num=0
+        #將五個人給分加起來
+        for j in recommend_data:
+            if(j[i]!=None):
+                rank_num+=1
+                total_score+=j[i]
+        #五人都沒給分就跳過
+        if(rank_num==0 or total_score==0):
+            continue
+        #算出平均
+        final_rank=total_score/rank_num
+        #如果已經有五間的話，比大小
+        if(len(best_rest_rank)>=5):
+            if(final_rank>min(best_rest_rank)):
+                switch=best_rest_rank.index(min(best_rest_rank))
+                best_rest_rank[switch]=final_rank
+                best_rest_name[switch]=all_restaurant_name[i]
+                
+        else:
+            best_rest_rank.append(final_rank)
+            best_rest_name.append(all_restaurant_name[i])
+            
     #關閉資料庫連線
     cursor.close()
     conn.close()
-    return render_template("home.html",recommend=all_restaurant_name)
+    return render_template("home.html",recommend=best_rest_name)
 
 
 if __name__ == 'main':

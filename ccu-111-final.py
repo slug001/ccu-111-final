@@ -1,12 +1,19 @@
-from flask import Flask, request,render_template
+from flask import Flask, request,render_template,session
 import requests
 import json
 import psycopg2
 import math
+import configparser
+
 database_url='postgres://zlujzrtgrbvpgb:ba830f737f30a8309677d917becefb9295f1956a8521b478604e3e4e54c76bb1@ec2-54-165-90-230.compute-1.amazonaws.com:5432/d64qh26kv7tm2k'
 
-app = Flask(__name__)
+#啟用config
+config = configparser.ConfigParser()
+config.read('config.ini')
 
+#設定flask 密碼、金鑰 
+app = Flask(__name__)
+app.config['SECRET_KEY']='ben9709830018'
 
 @app.route('/', methods=['GET','POST'])
 def home():

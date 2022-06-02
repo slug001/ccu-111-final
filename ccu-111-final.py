@@ -175,10 +175,16 @@ def recommend():
         tmp_data=cursor.fetchall()
         recommend_data.append(list(tmp_data[0]))
     
+    #先抓餐廳名稱，再找出共同喜愛的幾家餐廳
+    sql="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='restaurant_data'"
+    cursor.execute(sql)
+    all_restaurant_name=cursor.fetchall()
+    all_restaurant_name=[i[0] for i in all_restaurant_name]
+    
+    #關閉資料庫連線
     cursor.close()
     conn.close()
-    
-    return render_template("home.html",recommend=recommend_data)
+    return render_template("home.html",recommend=all_restaurant_name)
 
 
 if __name__ == 'main':

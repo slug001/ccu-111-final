@@ -158,8 +158,8 @@ def recommend():
                     max_name[j]=i[0]
                     break
         elif(other_len>0 and all_cos>0):
-            max_cos.extend(final_cos)
-            max_name.extend(i[0])
+            max_cos.append(final_cos)
+            max_name.append(i[0])
         
     return render_template("home.html",recommend=max_name)
 

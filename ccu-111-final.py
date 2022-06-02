@@ -98,9 +98,11 @@ def login():
     val=(user_name,user_password)
     cursor.execute(sql,val)
     conn.commit()
+    
     sql="INSERT INTO restaurant_data(user_name) VALUES(%s)"
     cursor.execute(sql,(user_name))
     conn.commit()
+    
     cursor.close()
     conn.close()
     
@@ -161,18 +163,11 @@ def recommend():
                 switch=max_cos.index(min(max_cos))
                 max_cos[switch]=final_cos
                 max_name[switch]=i[0]
-            """
-            for j in range(len(max_cos)):        
-                if(final_cos>max_cos[j]):
-                    max_cos[j]=final_cos
-                    max_name[j]=i[0]
-                    break
-            """
         elif(other_len>0 and all_cos>0):
             max_cos.append(final_cos)
             max_name.append(i[0])
             
-    #找出相似的後再找出資料庫中的評分資料
+    #找出相似的使用者後再找出他們資料庫中的評分資料
     recommend_data=[]
     for name in max_name:
         sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=name)

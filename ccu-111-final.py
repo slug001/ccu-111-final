@@ -172,7 +172,7 @@ def recommend():
     for name in max_name:
         sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=name)
         cursor.execute(sql)
-        recommend_data.append(cursor.fetchall())
+        recommend_data.extend(list(cursor.fetchall()))
     
     cursor.close()
     conn.close()

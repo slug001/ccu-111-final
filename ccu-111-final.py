@@ -168,9 +168,16 @@ def recommend():
             max_name.append(i[0])
             
     #找出相似的後再找出資料庫中的評分資料
+    recommend_data=[]
+    for name in max_name:
+        sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=name)
+        cursor.execute(sql)
+        recommend_data.append(cursor.fetchall())
+    
     cursor.close()
     conn.close()
-    return render_template("home.html",recommend=max_name)
+    
+    return render_template("home.html",recommend=recommend_data)
 
 
 if __name__ == 'main':

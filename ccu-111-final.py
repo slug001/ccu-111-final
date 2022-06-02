@@ -152,7 +152,7 @@ def recommend():
             other_len=round(math.sqrt(other_len),4)
             final_cos=float(all_cos)/float(other_len)*float(target_len)
         
-        for j in range(max_cos):        
+        for j in range(len(max_cos)):        
             if(final_cos>max_cos[j]):
                 max_cos[j]=final_cos
                 max_name[j]=i[0]

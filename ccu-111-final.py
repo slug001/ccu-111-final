@@ -155,7 +155,7 @@ def recommend():
             if(final_cos>max[j]):
                 max[j]=final_cos
                 max_name[j]=i[0]
-                
+                break
     
     return render_template("home.html",recommend=max_name)
 

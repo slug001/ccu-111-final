@@ -150,13 +150,13 @@ def recommend():
         if(other_len>0 and all_cos>0):
             other_len=round(math.sqrt(other_len),4)
             final_cos=float(all_cos)/float(other_len)*float(target_len)
-        
+        """
         for j in range(max):        
             if(final_cos>max[j]):
                 max[j]=final_cos
                 max_name[j]=i[0]
                 break
-    
+        """
     return render_template("home.html",recommend=max_name)
 
 

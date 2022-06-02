@@ -88,10 +88,12 @@ def login():
    
     #轉成list
     all_user_name=[i[0] for i in all_user_name]
+    #如果名稱已存在則更新失敗
     if(user_name in all_user_name):
         cursor.close()
         conn.close()
         return render_template("home.html",repeat='new_user false')
+    #新的名稱則把資料記錄在user_data和restaurant_data裡
     sql="INSERT INTO user_data(user_name,user_password) VALUES(%s,%s)"
     val=(user_name,user_password)
     cursor.execute(sql,val)

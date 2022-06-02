@@ -29,7 +29,9 @@ def home():
         conn.close()
         all_data=json.dumps(all_data)
         """
-        return render_template("home.html")
+        session['session_password']='your key'
+        key=session.get('session_password')
+        return render_template("home.html",repeat=key)
     else:
         #user_position=request.values['input']
 

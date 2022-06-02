@@ -18,7 +18,7 @@ def home():
         all_data=cursor.fetchall()
         cursor.close()
         conn.close()
-        all_data=json.dumps(all_data,encoding=”utf-8”)
+        all_data=json.dumps(all_data,encoding='utf-8')
         return render_template("home.html",repeat=all_data)
     else:
         #user_position=request.values['input']

@@ -11,6 +11,8 @@ app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
 def home():
     if request.method =='GET':
+        #抓取使用者資料
+        """
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
         sql="SELECT * FROM restaurant_data "
@@ -19,6 +21,7 @@ def home():
         cursor.close()
         conn.close()
         all_data=json.dumps(all_data)
+        """
         return render_template("home.html",repeat=all_data)
     else:
         #user_position=request.values['input']
@@ -58,10 +61,7 @@ def home():
             cursor.close()
             conn.close()
             return render_template("home.html",repeat='same_name success')
-        
-              
-        
-        
+       
         cursor.close()
         conn.close()
         
@@ -104,9 +104,12 @@ def login():
     
     return render_template("home.html",repeat='new_user success')
 
+#推薦系統
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
     name=request.values['search_name']
+    
+    #先抓取資料庫的資料
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
 
@@ -117,10 +120,11 @@ def recommend():
     sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=name)
     cursor.execute(sql)
     target_data=cursor.fetchall()
-    
+    """
     cursor.close()
     conn.close()
-    
+    """
+    #計算資料長度和轉換格式
     target_len=0
     target_data=[list(i) for i in target_data]
     target_data=target_data[0]
@@ -133,9 +137,10 @@ def recommend():
     target_len=round(math.sqrt(target_len),4)
     all_data=[list(i) for i in all_data]
 
+    #計算目標資料和其他資料的餘弦相似度
+    #並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳
     max_cos=[]
     max_name=[]
-    
     for i in all_data:
         other_len=0;all_cos=0;final_cos=0
         if(i[0]==name):
@@ -151,6 +156,7 @@ def recommend():
         if(other_len>0 and all_cos>0):
             other_len=round(math.sqrt(other_len),4)
             final_cos=float(all_cos)/float(other_len)*float(target_len)
+        #如果人數小於五就增加，大於則比較
         if(len(max_cos)>=5):
             for j in range(len(max_cos)):        
                 if(final_cos>max_cos[j]):
@@ -160,7 +166,10 @@ def recommend():
         elif(other_len>0 and all_cos>0):
             max_cos.append(final_cos)
             max_name.append(i[0])
-        
+            
+    #找出相似的後再找出資料庫中的評分資料
+    cursor.close()
+    conn.close()
     return render_template("home.html",recommend=max_name)
 
 

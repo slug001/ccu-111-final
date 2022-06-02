@@ -133,7 +133,8 @@ def recommend():
     target_len=round(math.sqrt(target_len),4)
     all_data=[list(i) for i in all_data]
 
-    max=[0,0,0,0,0];max_name=[0,0,0,0,0]
+    max_cos=[0,0,0,0,0]
+    max_name=[0,0,0,0,0]
     
     for i in all_data:
         other_len=0;all_cos=0;final_cos=0
@@ -150,13 +151,13 @@ def recommend():
         if(other_len>0 and all_cos>0):
             other_len=round(math.sqrt(other_len),4)
             final_cos=float(all_cos)/float(other_len)*float(target_len)
-        """
-        for j in range(max):        
-            if(final_cos>max[j]):
-                max[j]=final_cos
+        
+        for j in range(max_cos):        
+            if(final_cos>max_cos[j]):
+                max_cos[j]=final_cos
                 max_name[j]=i[0]
                 break
-        """
+        
     return render_template("home.html",recommend=max_name)
 
 

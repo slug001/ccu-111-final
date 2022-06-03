@@ -45,12 +45,12 @@ def home():
         #資料庫連線
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
-        
+        """
         #先新增歷史紀錄
         sql="INSERT INTO history_eat(user_name,restaurant_name,rank) VALUES(%s,%s,%d)"
         cursor.execute(sql,(user_name,restaurant_name,rank))
         conn.commit()
-        
+        """
         #找出所有的使用者名稱
         sql="SELECT user_name FROM restaurant_data "
         cursor.execute(sql)

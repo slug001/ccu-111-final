@@ -40,9 +40,9 @@ def home():
                     history_data.append(i[j])
                 else:
                     
-                    tmp=i[j]
+                    tmp=str(i[j])
                     time_tmp=re.search(r'\d+, \d+, \d+, \d+, \d+, \d+,',tmp)
-                    history_data.append([time_tmp.group()])
+                    history_data.append(time_tmp.group())
                     
                     #history_data.append(i[j])
             #history_data.extend([i[j] for j in range(1,len(i)) ])

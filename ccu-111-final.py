@@ -22,7 +22,7 @@ def home():
         
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
-        sql="SELECT * FROM history_eat WHERE user_name={user_name}"\.format(user_name='123')
+        sql="SELECT * FROM history_eat WHERE user_name='{user_name}'".format(user_name='123')
         cursor.execute(sql)
         all_data=cursor.fetchall()
         cursor.close()

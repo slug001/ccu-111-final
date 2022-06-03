@@ -30,8 +30,8 @@ def home():
         
         history_data=[]
         for i in all_data:
-            all_data.extend([j for j in i])
-        all_data=str(all_data).strip('[]')    
+            history_data.extend([j for j in i])
+        history_data=str(history_data).strip('[]')    
         #all_data=all_data[0]
         
         """
@@ -40,7 +40,7 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("home.html",repeat=all_data)
+        return render_template("home.html",repeat=history_data)
     else:
         #user_position=request.values['input']
 

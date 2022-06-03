@@ -19,7 +19,7 @@ app.config['SECRET_KEY']='ben9709830018'
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        
+        """
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
         sql="SELECT * FROM restaurant_data "
@@ -31,14 +31,14 @@ def home():
         #all_data=json.dumps(all_data)
         all_data=list(all_data[0])
         all_data=all_data[0]
-        #console.log(all_data)
+        """
         """
         session['session_password']='bbbb'
         key=session.get('session_password')
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("home.html",repeat=all_data)
+        return render_template("home.html",repeat="now")
     else:
         #user_position=request.values['input']
 
@@ -141,6 +141,7 @@ def login():
 #推薦系統
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
+    """
     name=request.values['search_name']
     
     #先抓取資料庫的資料
@@ -239,7 +240,8 @@ def recommend():
     #關閉資料庫連線
     cursor.close()
     conn.close()
-    return render_template("home.html",recommend=best_rest_name)
+    """
+    return render_template("home.html",recommend="test")
 
 
 if __name__ == 'main':

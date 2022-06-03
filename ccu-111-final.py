@@ -89,8 +89,8 @@ def login():
     if request.method =='GET':
         return render_template("login.html")
     
-    user_name=request.values['new_user_name']
-    user_password=request.values['new_password']
+    user_name=request.values['account']
+    user_password=request.values['password']
     return render_template("home.html",repeat=user_name)
     """
     if(user_name==None or user_password==None):

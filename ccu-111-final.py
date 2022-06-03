@@ -21,9 +21,10 @@ def home():
     if request.method =='GET':
         #抓取使用者資料
         
+        #這邊試著把離現在最近的十筆資料抓出來
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
-        sql="SELECT * FROM history_eat WHERE user_name='{user_name}' LIMIT 10".format(user_name='123')
+        sql="SELECT * FROM history_eat WHERE user_name='{user_name}' LIMIT 10 ORDER BY day DESC".format(user_name='2')
         cursor.execute(sql)
         all_data=cursor.fetchall()
         cursor.close()

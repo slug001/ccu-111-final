@@ -19,10 +19,10 @@ app.config['SECRET_KEY']='ben9709830018'
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        """
+        
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
-        sql="SELECT * FROM restaurant_data "
+        sql="SELECT * FROM history_eat "
         cursor.execute(sql)
         all_data=cursor.fetchall()
         cursor.close()
@@ -30,15 +30,15 @@ def home():
         
         #all_data=json.dumps(all_data)
         all_data=list(all_data[0])
-        all_data=all_data[0]
-        """
+        #all_data=all_data[0]
+        
         """
         session['session_password']='bbbb'
         key=session.get('session_password')
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("home.html",repeat="now")
+        return render_template("home.html",repeat=all_data)
     else:
         #user_position=request.values['input']
 

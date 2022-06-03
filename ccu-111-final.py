@@ -5,6 +5,7 @@ import psycopg2
 import math
 import configparser
 import time
+import re
 
 database_url='postgres://zlujzrtgrbvpgb:ba830f737f30a8309677d917becefb9295f1956a8521b478604e3e4e54c76bb1@ec2-54-165-90-230.compute-1.amazonaws.com:5432/d64qh26kv7tm2k'
 
@@ -34,7 +35,14 @@ def home():
         
         
         for i in all_data:
-            history_data.extend([i[j] for j in range(1,len(i)) ])
+            for j in range(1,len(i)):
+                if(j<3):
+                    history_data.append(i[j])
+                else:
+                    tmp=[j]
+                    time_tmp=re.search(r'\d+, \d+, \d+, \d+, \d+, \d+,',tmp)
+                    history_data.append(time_tmp.group())
+            #history_data.extend([i[j] for j in range(1,len(i)) ])
 
         for i in range(len(history_data)):
             if(history_data[i]==None):

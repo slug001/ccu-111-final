@@ -91,7 +91,7 @@ def login():
     user_name="begin"
     try:
         user_name=request.values['account_tt']
-        #user_password=request.values['password']
+        user_password=request.values['password']
     except:
         pass
     return render_template("home.html",repeat=user_name)

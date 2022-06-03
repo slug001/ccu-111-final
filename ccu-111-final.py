@@ -47,8 +47,8 @@ def home():
         cursor=conn.cursor()
         
         #先新增歷史紀錄
-        sql="INSERT INTO history_eat(user_name,restaurant_name,rank) VALUES(%s,%s,%d)"
-        cursor.execute(sql,(user_name,restaurant_name,int(rank)))
+        sql="INSERT INTO history_eat(user_name,restaurant_name,rank) VALUES(%s,%s,%s)"
+        cursor.execute(sql,(user_name,restaurant_name,rank))
         conn.commit()
         
         #找出所有的使用者名稱

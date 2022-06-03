@@ -4,6 +4,7 @@ import json
 import psycopg2
 import math
 import configparser
+import time
 
 database_url='postgres://zlujzrtgrbvpgb:ba830f737f30a8309677d917becefb9295f1956a8521b478604e3e4e54c76bb1@ec2-54-165-90-230.compute-1.amazonaws.com:5432/d64qh26kv7tm2k'
 
@@ -59,9 +60,11 @@ def home():
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
         
-        #先新增歷史紀錄
-        sql="INSERT INTO history_eat(user_name,restaurant_name,rank) VALUES(%s,%s,%s)"
-        cursor.execute(sql,(user_name,restaurant_name,rank))
+        #先新增歷史紀錄，記得抓現在的時間
+        localtime=time.localtime()
+        time_text= time.strftime("%Y-%m-%d %I:%M:%S", localtime)
+        sql="INSERT INTO history_eat(user_name,restaurant_name,rank,day) VALUES(%s,%s,%s,%s)"
+        cursor.execute(sql,(user_name,restaurant_name,rank,time_text))
         conn.commit()
         
         #找出所有的使用者名稱

@@ -27,7 +27,9 @@ def home():
         all_data=cursor.fetchall()
         cursor.close()
         conn.close()
+        
         all_data=json.dumps(all_data)
+        all_data=all_data[0]
         #console.log(all_data)
         """
         session['session_password']='bbbb'

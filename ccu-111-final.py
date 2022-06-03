@@ -22,7 +22,7 @@ def home():
         
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
-        sql="SELECT * FROM history_eat "
+        sql="SELECT * FROM history_eat WHERE user_name={user_name}".format(user_name='123')
         cursor.execute(sql)
         all_data=cursor.fetchall()
         cursor.close()
@@ -30,7 +30,7 @@ def home():
         
         history_data=[len(all_data)]
         for i in all_data:
-            history_data.extend([j for j in i ])
+            history_data.extend([i[j] for j in range(1,len(i)) ])
         
         for i in range(len(history_data)):
             if(history_data[i]==None):

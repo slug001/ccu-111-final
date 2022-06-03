@@ -29,7 +29,7 @@ def home():
         conn.close()
         
         #all_data=json.dumps(all_data)
-        all_data=list(all_data[0])
+        all_data=[i for i in all_data]
         #all_data=all_data[0]
         
         """

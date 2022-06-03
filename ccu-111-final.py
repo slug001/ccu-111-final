@@ -36,13 +36,12 @@ def home():
         """
         for i in all_data:
             history_data.extend( [j for j in i ])
-        """
+        
         for i in range(len(history_data)):
             if(history_data[i]==None):
                 history_data[i]=''
-        
-        history_data=str(history_data).strip('[]')    
-        #all_data=all_data[0]
+        """
+        #history_data=str(history_data).strip('[]')    
         
         """
         session['session_password']='bbbb'
@@ -50,7 +49,7 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("home.html",repeat=history_data)
+        return render_template("home.html",repeat=all_data)
     else:
         #user_position=request.values['input']
 

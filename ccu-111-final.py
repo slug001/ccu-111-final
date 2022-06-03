@@ -46,6 +46,11 @@ def home():
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
         
+        #先新增歷史紀錄
+        sql="INSERT INTO history_eat(user_name,restaurant_name,rank) VALUES(%s,%s,%d)"
+        cursor.execute(sql,(user_name,restaurant_name,rank))
+        conn.commit()
+        
         #找出所有的使用者名稱
         sql="SELECT user_name FROM restaurant_data "
         cursor.execute(sql)
@@ -72,14 +77,11 @@ def home():
             cursor.close()
             conn.close()
             return render_template("home.html",repeat='same_name success')
-       
+        
         cursor.close()
         conn.close()
-        
-        if(1):
-            return render_template("home.html",repeat=all_restaurant_name)
-        else:
-            return render_template("home.html",repeat='false')
+
+        return render_template("home.html",repeat='false')
 
 
 @app.route("/login", methods=['GET','POST'])
@@ -149,8 +151,9 @@ def recommend():
     target_len=round(math.sqrt(target_len),4)
     all_data=[list(i) for i in all_data]
 
-    #計算目標資料和其他資料的餘弦相似度
-    #並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳
+    """ 協同過濾
+        計算目標資料和其他資料的餘弦相似度
+        並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳"""
     max_cos=[]
     max_name=[]
     for i in all_data:

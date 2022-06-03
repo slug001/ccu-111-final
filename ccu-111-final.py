@@ -91,11 +91,13 @@ def login():
     
     user_name=request.values['new_user_name']
     user_password=request.values['new_password']
-    
+    return render_template("home.html",repeat=user_name)
+    """
     if(user_name==None or user_password==None):
         return render_template("home.html",repeat='get_None')
     else:
         return render_template("home.html",repeat='not_None')
+    """
     #資料庫連線
     
     conn = psycopg2.connect(database_url,sslmode='require')

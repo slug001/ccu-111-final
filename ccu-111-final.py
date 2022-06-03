@@ -28,7 +28,7 @@ def home():
         cursor.close()
         conn.close()
         
-        history_data=[]
+        history_data=[len(all_data)]
         for i in all_data:
             history_data.extend([j for j in i])
         history_data=str(history_data).strip('[]')    

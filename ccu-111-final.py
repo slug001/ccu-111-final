@@ -61,8 +61,8 @@ def home():
         cursor=conn.cursor()
         
         #先新增歷史紀錄，記得抓現在的時間
-        localtime=time.localtime(int(time.time()))
-        time_text= time.strftime("%Y-%m-%d %I:%M:%S", localtime)
+        localtime=time.localtime(int(time.time())+28800)
+        time_text= time.strftime("%Y-%m-%d %H:%M:%S", localtime)
         sql="INSERT INTO history_eat(user_name,restaurant_name,rank,day) VALUES(%s,%s,%s,%s)"
         cursor.execute(sql,(user_name,restaurant_name,rank,time_text))
         conn.commit()

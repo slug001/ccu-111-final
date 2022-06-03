@@ -33,8 +33,10 @@ def home():
         for i in all_data:
             history_data.extend([i[j] for j in range(1,len(i)) ])
         """
+        """
         for i in all_data:
             history_data.extend( [j for j in i ])
+        """
         for i in range(len(history_data)):
             if(history_data[i]==None):
                 history_data[i]=''

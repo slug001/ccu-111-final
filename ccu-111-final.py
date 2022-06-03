@@ -19,7 +19,7 @@ app.config['SECRET_KEY']='ben9709830018'
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        """
+        
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
         sql="SELECT * FROM history_eat WHERE user_name={user_name}".format(user_name='123')
@@ -28,8 +28,8 @@ def home():
         cursor.close()
         conn.close()
         
-        history_data=[len(all_data)]
-        """
+        #history_data=[len(all_data)]
+        
         """
         for i in all_data:
             history_data.extend([i[j] for j in range(1,len(i)) ])
@@ -50,7 +50,7 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("home.html",repeat="please")
+        return render_template("home.html",repeat=all_data)
     else:
         #user_position=request.values['input']
 

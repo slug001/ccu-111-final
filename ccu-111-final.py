@@ -36,7 +36,7 @@ def home():
             if(history_data[i]==None):
                 history_data[i]='0'
         """
-        history_data=str(history_data).strip('[]')    
+        #history_data=str(history_data).strip('[]')    
         #all_data=all_data[0]
         
         """

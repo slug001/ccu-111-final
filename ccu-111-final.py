@@ -60,10 +60,12 @@ def home():
             key='小魔女最討厭來路不明的怪叔叔了'
         """
         tmp=all_data[0][3]
+        """
         time_tmp=re.search(r'\d+, \d+, \d+, \d+, \d+, \d+,',tmp)
         history_data=time_tmp.group()
+        """
         
-        return render_template("home.html",repeat=history_data)
+        return render_template("home.html",repeat=tmp)
     else:
         #user_position=request.values['input']
 

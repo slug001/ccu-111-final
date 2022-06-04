@@ -303,6 +303,8 @@ def message_link(event):
                     thumbnail_image_url=event[0],
                     title=event[1],
                     text=event[2],
+                    text=event[3],
+                    text=even[6],
                     actions=[
                         MessageAction(
                             label='電話',

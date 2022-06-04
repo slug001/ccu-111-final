@@ -460,18 +460,16 @@ def handle_message(event):
         #判斷使用者是否存在
         if (str(tmp) in all_user_name):
             #存在則新增line_userid
-            sql="UPDATE user_data SET line_userid = {user_id} WHERE user_name='{user_name}'"\
+            sql="UPDATE user_data SET line_userid = '{user_id}' WHERE user_name='{user_name}'"\
                 .format(user_id=user_id,user_name=tmp)
             cursor.execute(sql)
             conn.commit()
-            cursor.close()
-            conn.close()
             return_text='success'
         else:
-            cursor.close()
-            conn.close()
             return_text='小魔女最討厭來路不明的怪叔叔了'
-        
+            
+        cursor.close()
+        conn.close()
         message = TextSendMessage(text = return_text)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend是設定使用者所偏好的食物種類

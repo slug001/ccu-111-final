@@ -430,7 +430,7 @@ def handle_message(event):
         #tmp = tmp_text.lstrip('Aacount')
         #tmp = tmp.lstrip(':')
         try:
-            tmp=event.source.userId
+            tmp=event.source.userid
             tmp='success'
         except:
             tmp='false'

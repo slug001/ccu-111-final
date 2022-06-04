@@ -357,7 +357,7 @@ def handle_message(event):
         pass
     #位置資訊則進入第一個if
     if(event.message.type == 'location'):
-        tmp=event.message.title
+        tmp=event.source
         message = TextSendMessage(text = tmp)
         line_bot_api.reply_message(event.reply_token, message)
         

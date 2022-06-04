@@ -108,7 +108,7 @@ def home():
 
         return render_template("home.html",repeat='false')
 
-"""
+
 #歷史紀錄頁面
 @app.route("/record",method=['GET'])
 def record():
@@ -140,7 +140,7 @@ def record():
     history_data=str(history_data).strip('[]')    
     history_data=str(history_data)
     return render_template("record.html",historyData=history_data)
-"""
+
 
 #登入頁面
 @app.route("/login", methods=['GET','POST'])

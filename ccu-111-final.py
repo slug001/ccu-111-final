@@ -344,9 +344,12 @@ a = [['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=3
 # 處理訊息
 @handler.add(MessageEvent)
 def handle_message(event):
-    tmp_text=event.message.text
-    match = re.search(r'^[(A|a)ccount:]', tmp_text)
-    recommend=re.search(r'^[(R|r)ecommend:]', tmp_text)
+    try:
+        tmp_text=event.message.text
+        match = re.search(r'^[(A|a)ccount:]', tmp_text)
+        recommend=re.search(r'^[(R|r)ecommend:]', tmp_text)
+    except:
+        pass
     if(event.message.type == 'location'):
         lat,lng = message_location(event)
         ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)

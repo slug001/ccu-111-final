@@ -23,16 +23,16 @@ def home():
         #抓取使用者資料
         session['session_password']='87cry'
         key=session.get('session_password')
-        if (key == None):
-            login_status=['No','小魔女最討厭來路不明的怪叔叔了']
-            login_status=str(login_status).strip('[]') 
-            login_status=str(login_status)
-        else:
-            login_status=['Yes',key]
-            login_status=str(login_status).strip('[]') 
-            login_status=str(login_status)
         
-        return render_template("home.html",repeat=login_status)
+        if (key == None):
+            login_status='No'
+            login_account='小魔女最討厭來路不明的怪叔叔了'
+        else:
+            login_status='Yes'
+            login_account=key
+
+        
+        return render_template("home.html",repeat=login_status+login_account)
     else:
         #user_position=request.values['input']
 

@@ -368,6 +368,9 @@ def handle_message(event):
         #找出user_lineid
         user_id=User_id(event)
         
+        message = TextSendMessage(text = '123')
+        line_bot_api.reply_message(event.reply_token, message)
+        
         #利用user_id找出user想被推薦的食物種類
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()

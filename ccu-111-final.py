@@ -372,11 +372,14 @@ def handle_message(event):
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
 
-        sql="SELECT favorite FROM user_data where user_lineid='{user_id}' "/
-            .format(user_id=userid)
+        sql="SELECT favorite FROM user_data where user_lineid='{user_id}' "\
+            .format(user_id=user_id)
         cursor.execute(sql)
         favorite_data=cursor.fetchall()
-        favorite=[list(favorite[0]]]
+        favorite=[list(favorite[0])]
+                       
+        cursor.close()
+        conn.close()
         message = TextSendMessage(text = favorite[0][0])
         line_bot_api.reply_message(event.reply_token, message)
 

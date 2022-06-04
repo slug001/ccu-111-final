@@ -451,7 +451,8 @@ def handle_message(event):
         all_user_name=cursor.fetchall()
         cursor.close()
         conn.close()
-        
+        all_user_name=[list(i) for i in all_user_name]
+        all_user_name=[i[0] for i in all_user_name]
         if (str(tmp) in all_user_name):
             tt='success'
         else:

@@ -427,11 +427,13 @@ def handle_message(event):
         #line_bot_api.reply_message(event.reply_token, message)
     #match!=null
     elif match:
-        tmp = tmp_text.lstrip('Aacount')
-        tmp = tmp.lstrip(':')
-        tmp = event.source.userId
-        if(len(tmp)):
-            tmp='suc'
+        #tmp = tmp_text.lstrip('Aacount')
+        #tmp = tmp.lstrip(':')
+        try:
+            tmp=event.source.userId
+            tmp='success'
+        except:
+            tmp='false'
         message = TextSendMessage(text = tmp)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend!=null

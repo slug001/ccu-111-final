@@ -21,7 +21,7 @@ app.config['SECRET_KEY']='ben9709830018'
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        
+        """
         #這邊試著把離現在最近的十筆資料抓出來
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
@@ -50,12 +50,13 @@ def home():
         history_data=str(history_data).strip('[]')    
         history_data=str(history_data)
         """
+        """
         session['session_password']='bbbb'
         key=session.get('session_password')
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("record.html",historyData=history_data)
+        return render_template("record.html",repeat="new world")
     else:
         #user_position=request.values['input']
 
@@ -108,6 +109,39 @@ def home():
         return render_template("home.html",repeat='false')
 
 
+#歷史紀錄頁面
+@app.route("/record",method=['GET'])
+def record():
+    #這邊試著把離現在最近的十筆資料抓出來
+    conn = psycopg2.connect(database_url,sslmode='require')
+    cursor=conn.cursor()
+    sql="SELECT * FROM history_eat WHERE user_name='{user_name}' ORDER BY day DESC LIMIT 10 ".format(user_name='2')
+    cursor.execute(sql)
+    all_data=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    #先在前面加資料數量
+    history_data=[len(all_data)]
+    
+    #再把資料一個一個抓進去，注意時間先轉成字串
+    for i in all_data:
+        for j in range(1,len(i)):
+            if(j<3):
+                history_data.append(i[j])
+            else:
+                tmp=str(i[j])
+                history_data.append(tmp)
+
+    #如果無資料則改成''
+    for i in range(len(history_data)):
+        if(history_data[i]==None):
+            history_data[i]=''
+    #再轉成字串
+    history_data=str(history_data).strip('[]')    
+    history_data=str(history_data)
+    return render_template("record.html",historyData=history_data)
+    
+#登入頁面
 @app.route("/login", methods=['GET','POST'])
 def login():
     if request.method =='GET':

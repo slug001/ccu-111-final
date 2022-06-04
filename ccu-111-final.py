@@ -59,8 +59,9 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
+        tmpp=all_data[0][3]
         tmp=[]
-        tmp.extend([i[3] for i in all_data])
+        tmp.append(tmpp)
         """
         time_tmp=re.search(r'\d+, \d+, \d+, \d+, \d+, \d+,',tmp)
         history_data=time_tmp.group()

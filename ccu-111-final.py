@@ -445,7 +445,7 @@ def handle_message(event):
         sql="SELECT user_name FROM user_data"
         cursor.execute(sql)
         all_user_name=cursor.fetchall()
-        if tmp in all_user_data:
+        if (tmp in all_user_data):
             tt='success
         else:
             tt='false'

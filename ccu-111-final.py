@@ -445,11 +445,13 @@ def handle_message(event):
         sql="SELECT user_name FROM user_data"
         cursor.execute(sql)
         all_user_name=cursor.fetchall()
+        """
         if (tmp in all_user_data):
             tt='success
         else:
             tt='false'
-        message = TextSendMessage(text = tt)
+        """
+        message = TextSendMessage(text = tmp)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend是設定使用者所偏好的食物種類
     elif recommend:

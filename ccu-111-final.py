@@ -55,7 +55,7 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("home.html",repeat=history_data)
+        return render_template("record.html",historyData=history_data)
     else:
         #user_position=request.values['input']
 

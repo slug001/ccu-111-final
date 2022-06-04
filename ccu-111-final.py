@@ -358,8 +358,65 @@ def handle_message(event):
     #位置資訊則進入第一個if
     if(event.message.type == 'location'):
         lat,lng = message_location(event)
-        ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)
-        message = TextSendMessage(text = ap)
+        #ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)
+        #尋找附近的店家
+        url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude}, {longitude}&radius=2000&keyword={keyword}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
+            .format(latitude=lat,longitude=lng,keyword='麻辣')
+        payload={}
+        headers = {}
+        #尋找附近店家
+        response = requests.request("GET", url, headers=headers, data=payload)
+        response.json()
+        res=json.loads(response.text)
+        
+        data_for_line=[]
+
+        for i in res['results']:
+            url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
+                .format(place_id=i['place_id'])
+            payload={}
+            headers = {}
+
+            ress = requests.request("GET", url, headers=headers, data=payload)
+            ress.json()
+            detail=json.loads(ress.text)
+
+            #要給line的資料
+            data_name=['photo_id','name','address','rating','phone_num','website','open']
+            try:
+                data_name[0]=detail['result']['photos'][0]['photo_reference']
+            except KeyError:
+                data_name[0]="無資料"
+            try:
+                data_name[1]=detail['result']['name'][:20]
+            except KeyError:
+                data_name[1]="無資料"
+            try:
+                data_name[2]=detail['result']['formatted_address']
+            except KeyError:
+                data_name[2]="無資料"
+            try:
+                data_name[3]=detail['result']['rating']
+            except KeyError:
+                data_name[3]="無資料"
+            try:
+                data_name[4]=detail['result']['formatted_phone_number']
+            except KeyError:
+                data_name[4]="無資料"
+            try:
+                data_name[5]=detail['result']['website']
+            except KeyError:
+                data_name[5]="無資料"
+            try:
+                data_name[6]=detail['result']['opening_hours']['open_now']
+            except KeyError:
+                data_name[6]="無資料"
+
+            data_name[0]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_name[0])
+            data_name[6]='營業中' if data_name[6]== True else '休息中'
+            data_for_line.append(data_name)
+        
+        message = TextSendMessage(text = data_for_line)
         line_bot_api.reply_message(event.reply_token, message)
     #match!=null
     elif match:

@@ -21,12 +21,12 @@ app.config['SECRET_KEY']='ben9709830018'
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        session['session_password']='bbbb'
+        session['session_password']='87cry'
         key=session.get('session_password')
         if (key == None):
-            login_status=['No','小魔女最討厭來路不明的怪叔叔了']
+            login_status=str('No','小魔女最討厭來路不明的怪叔叔了')
         else:
-            login_status=['Yes',key]
+            login_status=str('Yes',key)
         
         return render_template("home.html",repeat=login_status)
     else:

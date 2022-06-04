@@ -440,11 +440,17 @@ def handle_message(event):
     #match是設定使用者帳號的功能
     elif match:
         #user_id=User_id(event)
+        #資料庫連線
+        conn = psycopg2.connect(database_url,sslmode='require')
+        cursor=conn.cursor()
+        
         tmp = tmp_text.lstrip('Aacount')
         tmp = tmp.lstrip(':')
         sql="SELECT user_name FROM user_data"
         cursor.execute(sql)
         all_user_name=cursor.fetchall()
+        cursor.close()
+        conn.close()
         """
         if (tmp in all_user_data):
             tt='success

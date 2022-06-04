@@ -500,8 +500,8 @@ def handle_message(event):
         if (str(user_id) in all_user_id):
             try:
                 #存在則新增favorite
-                sql="UPDATE user_data SET favorite = '{favorite}' WHERE line_userid={line_userid}"\
-                    .format(favorite=tmp,line_userid=user_id)
+                sql="UPDATE user_data SET favorite = '{favorite}' WHERE user_name='{user_name}'"\
+                    .format(favorite=tmp,user_name=2)
                 cursor.execute(sql)
                 conn.commit()
                 return_text='success'

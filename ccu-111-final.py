@@ -30,10 +30,10 @@ def home():
         all_data=cursor.fetchall()
         cursor.close()
         conn.close()
-        
+        #先在前面加資料數量
         history_data=[len(all_data)]
         
-        
+        #再把資料一個一個抓進去，注意時間先轉成字串
         for i in all_data:
             for j in range(1,len(i)):
                 if(j<3):
@@ -42,24 +42,19 @@ def home():
                     tmp=str(i[j])
                     history_data.append(tmp)
 
-            #history_data.extend([i[j] for j in range(1,len(i)) ])
-
+        #如果無資料則改成''
         for i in range(len(history_data)):
             if(history_data[i]==None):
                 history_data[i]=''
-        
+        #再轉成字串
         history_data=str(history_data).strip('[]')    
+        history_data=str(history_data)
         
         """
         session['session_password']='bbbb'
         key=session.get('session_password')
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
-        """
-        """
-        tmpp=str(all_data[0][3])
-        tmp=[]
-        tmp.append(tmpp)
         """
         return render_template("home.html",repeat=history_data)
     else:

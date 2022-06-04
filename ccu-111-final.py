@@ -359,6 +359,8 @@ def handle_message(event):
     if(event.message.type == 'location'):
         tmp=event.source
         tmp=str(tmp)
+        userid_tmp=re.search(r'U[0-9a-f]{32}',tmp)
+        tmp=str(userid_tmp.group())
         message = TextSendMessage(text = tmp)
         line_bot_api.reply_message(event.reply_token, message)
         

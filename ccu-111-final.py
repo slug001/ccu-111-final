@@ -498,13 +498,13 @@ def handle_message(event):
         
         #判斷userid是否存在
         if (str(user_id) in all_user_id):
-            """
+            
             #存在則新增favorite
             sql="UPDATE user_data SET favorite = '{favorite}' WHERE line_userid='{line_userid}'"\
                 .format(favorite=tmp,line_userid=user_id)
             cursor.execute(sql)
             conn.commit()
-            """
+            
             return_text='success'
         else:
             #return_text='小魔女最討厭來路不明的怪叔叔了'

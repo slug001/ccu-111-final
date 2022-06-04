@@ -365,11 +365,8 @@ def handle_message(event):
         pass
     #位置資訊則進入第一個if
     if(event.message.type == 'location'):
-        tmp=event.source
-        tmp=str(tmp)
-        userid_tmp=re.search(r'U[0-9a-f]{32}',tmp)
-        tmp=str(userid_tmp.group())
-        message = TextSendMessage(text = tmp)
+        user_id=User_id(event)
+        message = TextSendMessage(text = user_id)
         line_bot_api.reply_message(event.reply_token, message)
         
         lat,lng = message_location(event)

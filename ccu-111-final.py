@@ -302,7 +302,8 @@ def message_link(event):
     return CarouselColumn(
                     thumbnail_image_url=event[0],
                     title=event[1],
-                    text='評分: '+str(event[3])+'\n地址: 'event[2]+'\n狀態: '+event[6],
+                    text='評分: '+str(event[3]),
+                    #+'\n地址: 'event[2]+'\n狀態: '+event[6],
                     actions=[
                         MessageAction(
                             label='電話',

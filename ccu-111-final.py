@@ -375,7 +375,7 @@ def handle_message(event):
         sql="SELECT favorite FROM user_data where user_lineid='{user_id}' "\
             .format(user_id=user_id)
         cursor.execute(sql)
-        favorite_data=cursor.fetchall()
+        favorite=cursor.fetchall()
         favorite=[list(favorite[0])]
                        
         cursor.close()

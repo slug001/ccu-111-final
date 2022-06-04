@@ -56,7 +56,7 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        return render_template("record.html",repeat="new world")
+        return render_template("home.html",repeat="new world")
     else:
         #user_position=request.values['input']
 
@@ -140,7 +140,7 @@ def record():
     history_data=str(history_data).strip('[]')    
     history_data=str(history_data)
     return render_template("record.html",historyData=history_data)
-    
+
 #登入頁面
 @app.route("/login", methods=['GET','POST'])
 def login():

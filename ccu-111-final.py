@@ -285,6 +285,14 @@ def recommend():
 
 
 #line-bot
+#抓User_id
+def User_id(event):
+    tmp=event.source
+    tmp=str(tmp)
+    userid_tmp=re.search(r'U[0-9a-f]{32}',tmp)
+    tmp=str(userid_tmp.group())
+    return tmp
+
 #抓取經緯度
 def message_location(event):
     lat = event.message.latitude
@@ -434,13 +442,10 @@ def handle_message(event):
         #line_bot_api.reply_message(event.reply_token, message)
     #match!=null
     elif match:
+        user_id=User_id(event)
         #tmp = tmp_text.lstrip('Aacount')
         #tmp = tmp.lstrip(':')
-        tmp=event.source
-        tmp=str(tmp)
-        userid_tmp=re.search(r'U[0-9a-f]{32}',tmp)
-        tmp=str(userid_tmp.group())
-        message = TextSendMessage(text = tmp)
+        message = TextSendMessage(text = user_id)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend!=null
     elif recommend:

@@ -452,10 +452,10 @@ def handle_message(event):
         cursor.close()
         conn.close()
         
-        if (tmp in all_user_name):
+        if (str(tmp) in all_user_name):
             tt='success'
         else:
-            tt='false'
+            tt=str(all_user_name)
         
         message = TextSendMessage(text = tt)
         line_bot_api.reply_message(event.reply_token, message)

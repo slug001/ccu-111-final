@@ -302,9 +302,7 @@ def message_link(event):
     return CarouselColumn(
                     thumbnail_image_url=event[0],
                     title=event[1],
-                    text=event[2],
-                    text=event[3],
-                    text=event[6],
+                    text=event[2]+str(event[3]),
                     actions=[
                         MessageAction(
                             label='電話',

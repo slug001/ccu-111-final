@@ -429,7 +429,7 @@ def handle_message(event):
     elif match:
         tmp = tmp_text.lstrip('Aacount')
         tmp = tmp.lstrip(':')
-        tmp = event.source.type
+        tmp = event.source.userId
         message = TextSendMessage(text = tmp)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend!=null

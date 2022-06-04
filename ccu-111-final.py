@@ -304,7 +304,7 @@ def message_link(event):
                     title=event[1],
                     text=event[2],
                     text=event[3],
-                    text=even[6],
+                    text=event[6],
                     actions=[
                         MessageAction(
                             label='電話',

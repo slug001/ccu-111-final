@@ -21,13 +21,14 @@ app.config['SECRET_KEY']='ben9709830018'
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        """
         session['session_password']='bbbb'
         key=session.get('session_password')
         if (key == None):
-            key='小魔女最討厭來路不明的怪叔叔了'
-        """
-        return render_template("home.html",repeat='new world')
+            login_status=['No','小魔女最討厭來路不明的怪叔叔了']
+        else:
+            login_status=['Yes',key]
+        
+        return render_template("home.html",repeat=login_status)
     else:
         #user_position=request.values['input']
 

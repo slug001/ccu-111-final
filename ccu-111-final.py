@@ -25,8 +25,12 @@ def home():
         key=session.get('session_password')
         if (key == None):
             login_status=['No','小魔女最討厭來路不明的怪叔叔了']
+            login_status=str(login_status).strip('[]') 
+            login_status=str(login_status)
         else:
             login_status=['Yes',key]
+            login_status=str(login_status).strip('[]') 
+            login_status=str(login_status)
         
         return render_template("home.html",repeat=login_status)
     else:

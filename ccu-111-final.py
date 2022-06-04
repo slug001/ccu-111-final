@@ -416,7 +416,7 @@ def handle_message(event):
             data_name[6]='營業中' if data_name[6]== True else '休息中'
             data_for_line.append(data_name)
         
-        message = TextSendMessage(text = data_for_line)
+        message = TextSendMessage(text = ['23'])
         line_bot_api.reply_message(event.reply_token, message)
     #match!=null
     elif match:

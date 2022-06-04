@@ -437,6 +437,7 @@ def handle_message(event):
         
         #message = TextSendMessage(text = '23')
         #line_bot_api.reply_message(event.reply_token, message)
+        
     #match是設定使用者帳號的功能
     elif match:
         user_id=User_id(event)
@@ -472,12 +473,45 @@ def handle_message(event):
         conn.close()
         message = TextSendMessage(text = return_text)
         line_bot_api.reply_message(event.reply_token, message)
+        
     #recommend是設定使用者所偏好的食物種類
     elif recommend:
+        #先找出使用者id
+        user_id=User_id(event)
+        
+        #資料庫連線
+        conn = psycopg2.connect(database_url,sslmode='require')
+        cursor=conn.cursor()
+        
+        #整理資料，留下推薦風格就好
         tmp = tmp_text.lstrip('Rrecomend')
         tmp = tmp.lstrip(':')
-        message = TextSendMessage(text = tmp)
+        
+        #從資料庫找出已經註冊的line_userid
+        sql="SELECT line_userid FROM user_data"
+        cursor.execute(sql)
+        all_user_id=cursor.fetchall()
+        
+        #資料格式轉換一下
+        all_user_id=[list(i) for i in all_user_id]
+        all_user_id=[i[0] for i in all_user_id]
+        
+        #判斷userid是否存在
+        if (str(user_id) in all_user_id):
+            #存在則新增favorite
+            sql="UPDATE user_data SET favorite = '{favorite}' WHERE line_userid='{line_userid}'"\
+                .format(favorite=tmp,line_userid=user_id)
+            cursor.execute(sql)
+            conn.commit()
+            return_text='success'
+        else:
+            return_text='小魔女最討厭來路不明的怪叔叔了'
+            
+        cursor.close()
+        conn.close()
+        message = TextSendMessage(text = return_text)
         line_bot_api.reply_message(event.reply_token, message)
+        
     #資料==魔女食堂
     elif event.message.text == "魔女食堂":
         line_bot_api.reply_message( event.reply_token,TemplateSendMessage(

@@ -24,9 +24,9 @@ def home():
         session['session_password']='87cry'
         key=session.get('session_password')
         if (key == None):
-            login_status=str('No','小魔女最討厭來路不明的怪叔叔了')
+            login_status=['No','小魔女最討厭來路不明的怪叔叔了']
         else:
-            login_status=str('Yes',key)
+            login_status=['Yes',key]
         
         return render_template("home.html",repeat=login_status)
     else:

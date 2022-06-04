@@ -67,7 +67,7 @@ def home():
         history_data=time_tmp.group()
         """
         
-        return render_template("home.html",repeat=tmpp)
+        return render_template("home.html",repeat=tmp)
     else:
         #user_position=request.values['input']
 

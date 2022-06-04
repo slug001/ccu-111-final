@@ -33,18 +33,15 @@ def home():
         
         history_data=[len(all_data)]
         
-        """
+        
         for i in all_data:
             for j in range(1,len(i)):
                 if(j<3):
                     history_data.append(i[j])
                 else:
-                    
                     tmp=str(i[j])
-                    time_tmp=re.search(r'\d+, \d+, \d+, \d+, \d+, \d+,',tmp)
-                    history_data.append(time_tmp.group())
-                    
-                    history_data.append(i[j])
+                    history_data.append(tmp)
+
             #history_data.extend([i[j] for j in range(1,len(i)) ])
 
         for i in range(len(history_data)):
@@ -52,22 +49,19 @@ def home():
                 history_data[i]=''
         
         history_data=str(history_data).strip('[]')    
-        """
+        
         """
         session['session_password']='bbbb'
         key=session.get('session_password')
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
+        """
         tmpp=str(all_data[0][3])
         tmp=[]
         tmp.append(tmpp)
         """
-        time_tmp=re.search(r'\d+, \d+, \d+, \d+, \d+, \d+,',tmp)
-        history_data=time_tmp.group()
-        """
-        
-        return render_template("home.html",repeat=tmp)
+        return render_template("home.html",repeat=history_data)
     else:
         #user_position=request.values['input']
 

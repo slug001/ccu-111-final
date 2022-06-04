@@ -49,7 +49,6 @@ def home():
         #再轉成字串
         history_data=str(history_data).strip('[]')    
         history_data=str(history_data)
-        history_data='polly'
         """
         session['session_password']='bbbb'
         key=session.get('session_password')

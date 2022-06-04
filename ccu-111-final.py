@@ -382,7 +382,7 @@ def handle_message(event):
         cursor.close()
         conn.close()
 
-        message = TextSendMessage(text = favorite)
+        message = TextSendMessage(text = str(favorite))
         line_bot_api.reply_message(event.reply_token, message)
         
         lat,lng = message_location(event)

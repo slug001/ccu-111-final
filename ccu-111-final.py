@@ -439,26 +439,40 @@ def handle_message(event):
         #line_bot_api.reply_message(event.reply_token, message)
     #match是設定使用者帳號的功能
     elif match:
-        #user_id=User_id(event)
+        user_id=User_id(event)
         #資料庫連線
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
         
+        #把資料整理到剩下帳號名稱的狀況
         tmp = tmp_text.lstrip('Aacount')
         tmp = tmp.lstrip(':')
+        
+        #從資料庫找出已經註冊的帳號
         sql="SELECT user_name FROM user_data"
         cursor.execute(sql)
         all_user_name=cursor.fetchall()
-        cursor.close()
-        conn.close()
+        
+        #資料格式轉換一下
         all_user_name=[list(i) for i in all_user_name]
         all_user_name=[i[0] for i in all_user_name]
-        if (str(tmp) in all_user_name):
-            tt='success'
-        else:
-            tt=str(all_user_name)
         
-        message = TextSendMessage(text = tt)
+        #判斷使用者是否存在
+        if (str(tmp) in all_user_name):
+            #存在則新增line_userid
+            sql="UPDATE user_data SET line_userid = {user_id} WHERE user_name='{user_name}'"\
+                .format(user_id=user_id,user_name=str(tmp))
+            cursor.execute(sql)
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return_text='success'
+        else:
+            cursor.close()
+            conn.close()
+            return_text='小魔女最討厭來路不明的怪叔叔了'
+        
+        message = TextSendMessage(text = return_text)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend是設定使用者所偏好的食物種類
     elif recommend:

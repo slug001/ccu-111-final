@@ -461,7 +461,7 @@ def handle_message(event):
         if (str(tmp) in all_user_name):
             #存在則新增line_userid
             sql="UPDATE user_data SET line_userid = {user_id} WHERE user_name='{user_name}'"\
-                .format(user_id=user_id,user_name=str(tmp))
+                .format(user_id=user_id,user_name=tmp)
             cursor.execute(sql)
             conn.commit()
             cursor.close()

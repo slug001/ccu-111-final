@@ -434,8 +434,12 @@ def handle_message(event):
         #line_bot_api.reply_message(event.reply_token, message)
     #match!=null
     elif match:
-        tmp = tmp_text.lstrip('Aacount')
-        tmp = tmp.lstrip(':')
+        #tmp = tmp_text.lstrip('Aacount')
+        #tmp = tmp.lstrip(':')
+        tmp=event.source
+        tmp=str(tmp)
+        userid_tmp=re.search(r'U[0-9a-f]{32}',tmp)
+        tmp=str(userid_tmp.group())
         message = TextSendMessage(text = tmp)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend!=null

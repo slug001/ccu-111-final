@@ -376,12 +376,13 @@ def handle_message(event):
             .format(user_id=user_id)
         cursor.execute(sql)
         favorite=cursor.fetchall()
-        favorite=[list(favorite[0])]
-                       
+        favorite=[list(i) for i in favorite]
+        favorite=[i[0] for i in favorite]     
+        
         cursor.close()
         conn.close()
 
-        message = TextSendMessage(text = favorite[0][0])
+        message = TextSendMessage(text = favorite)
         line_bot_api.reply_message(event.reply_token, message)
         
         lat,lng = message_location(event)

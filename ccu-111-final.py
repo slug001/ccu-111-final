@@ -59,7 +59,7 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        tmp='datetime.datetime(2022, 6, 3, 22, 51, 3, tzinfo=datetime.timezone.utc)'
+        tmp=all_data[0][3]
         time_tmp=re.search(r'\d+, \d+, \d+, \d+, \d+, \d+,',tmp)
         history_data=time_tmp.group()
         

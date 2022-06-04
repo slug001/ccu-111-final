@@ -437,14 +437,21 @@ def handle_message(event):
         
         #message = TextSendMessage(text = '23')
         #line_bot_api.reply_message(event.reply_token, message)
-    #match!=null
+    #match是設定使用者帳號的功能
     elif match:
-        user_id=User_id(event)
-        #tmp = tmp_text.lstrip('Aacount')
-        #tmp = tmp.lstrip(':')
-        message = TextSendMessage(text = user_id)
+        #user_id=User_id(event)
+        tmp = tmp_text.lstrip('Aacount')
+        tmp = tmp.lstrip(':')
+        sql="SELECT user_name FROM user_data"
+        cursor.execute(sql)
+        all_user_name=cursor.fetchall()
+        if tmp in all_user_data:
+            tt='success
+        else:
+            tt='false'
+        message = TextSendMessage(text = tt)
         line_bot_api.reply_message(event.reply_token, message)
-    #recommend!=null
+    #recommend是設定使用者所偏好的食物種類
     elif recommend:
         tmp = tmp_text.lstrip('Rrecomend')
         tmp = tmp.lstrip(':')

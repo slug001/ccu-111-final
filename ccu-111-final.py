@@ -452,7 +452,7 @@ def handle_message(event):
         cursor.close()
         conn.close()
         
-        if (tmp in all_user_data):
+        if (tmp in all_user_name:
             tt='success
         else:
             tt='false'

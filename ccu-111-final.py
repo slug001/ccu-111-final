@@ -376,7 +376,7 @@ def handle_message(event):
             .format(user_id=user_id)
         cursor.execute(sql)
         favorite=cursor.fetchall()
-        favorite=[list(favorite[0])]
+        favorite=str(favorite)
                        
         cursor.close()
         conn.close()

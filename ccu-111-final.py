@@ -110,7 +110,7 @@ def home():
 
 
 #歷史紀錄頁面
-@app.route("/record",method=['GET'])
+@app.route("/record",methods=['GET'])
 def record():
     #這邊試著把離現在最近的十筆資料抓出來
     conn = psycopg2.connect(database_url,sslmode='require')

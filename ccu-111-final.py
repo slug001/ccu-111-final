@@ -59,7 +59,7 @@ def home():
         if (key == None):
             key='小魔女最討厭來路不明的怪叔叔了'
         """
-        tmpp=all_data[0][3]
+        tmpp=str(all_data[0][3])
         tmp=[]
         tmp.append(tmpp)
         """
@@ -67,7 +67,7 @@ def home():
         history_data=time_tmp.group()
         """
         
-        return render_template("home.html",repeat=tmp)
+        return render_template("home.html",repeat=tmpp)
     else:
         #user_position=request.values['input']
 

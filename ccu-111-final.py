@@ -357,6 +357,10 @@ def handle_message(event):
         pass
     #位置資訊則進入第一個if
     if(event.message.type == 'location'):
+        tmp=event.message.title
+        message = TextSendMessage(text = tmp)
+        line_bot_api.reply_message(event.reply_token, message)
+        
         lat,lng = message_location(event)
         #ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)
         #尋找附近的店家
@@ -427,13 +431,8 @@ def handle_message(event):
         #line_bot_api.reply_message(event.reply_token, message)
     #match!=null
     elif match:
-        #tmp = tmp_text.lstrip('Aacount')
-        #tmp = tmp.lstrip(':')
-        try:
-            tmp=event.source.userid
-            tmp='success'
-        except:
-            tmp='false'
+        tmp = tmp_text.lstrip('Aacount')
+        tmp = tmp.lstrip(':')
         message = TextSendMessage(text = tmp)
         line_bot_api.reply_message(event.reply_token, message)
     #recommend!=null

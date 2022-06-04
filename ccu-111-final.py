@@ -1,4 +1,12 @@
-from flask import Flask, request,render_template,session
+from flask import Flask, request,render_template,session,abort
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot.models import *
+
 import requests
 import json
 import psycopg2
@@ -275,6 +283,96 @@ def recommend():
     
     return render_template("home.html",recommend="test")
 
+
+#line-bot
+def message_location(event):
+    lat = event.message.latitude
+    lng = event.message.longitude
+    return lat,lng
+
+def message_link(event):
+    if(event[0]=='無資料'):
+        event[0]='https://lh3.googleusercontent.com/places/AAcXr8reLx16i5Y9HkTVsmhB_kCiQvYk_k_PYB1vvfY9Rog_3D9hAA8glxHBhZ4N0Mk7yhnQMMlXGEsnBJHbWdI9DDfUrb0n47hFpzk=s1600-w400-h300'
+    if(event[5]=='無資料'):
+        event[5]='https://www.foodpanda.com.tw/?gclid=CjwKCAjwv-GUBhAzEiwASUMm4v5rWIn1SAkh0M6VH7aTcQxXFlXogwARYeKvbyOhOKrEmVz0-EK-mxoC7A4QAvD_BwE'
+    
+    return CarouselColumn(
+                    thumbnail_image_url=event[0],
+                    title=event[1],
+                    text=event[2],
+                    actions=[
+                        MessageAction(
+                            label='電話',
+                            text=event[4]
+                        ),
+                        URIAction(
+                            label='官網',
+                            uri=event[5]
+                        ),
+                        URIAction(
+                            label='foodpanda',
+                            uri='https://www.foodpanda.com.tw/?gclid=CjwKCAjwv-GUBhAzEiwASUMm4v5rWIn1SAkh0M6VH7aTcQxXFlXogwARYeKvbyOhOKrEmVz0-EK-mxoC7A4QAvD_BwE'
+                        )
+                    ]
+                )
+# Channel Access Token
+line_bot_api = LineBotApi('+2izojVo42xI0qEcngmy3CEbEdwfdysKyHDdNxkShWEFwnISXELa7qaZVev3enlz8pkybGwBgZsba+zWSYcasY0icwlv9ottrdblv6XbNXj3Q7uLl53Z0Q5XT5R+MRnw1wr+EnTjAEZBPdoM+nzmuAdB04t89/1O/w1cDnyilFU=')
+#or line_bot_api = 'Channel_token'
+
+# Channel Secret
+handler = WebhookHandler('05c75e8423c5d95b16c066dd757b110c')
+#or handler = 'Channel_secret'
+
+# 監聽所有來自 /callback 的 Post Request
+@app.route("/callback", methods=['POST'])
+def callback():
+    # get X-Line-Signature header value
+    signature = request.headers['X-Line-Signature']
+    
+    # get request body as text
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
+    
+    # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+    return 'OK'
+
+a = [['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEBMCIF83CwJFEUEPcv0SIYt6uo4cIRtMEqfqjSxqAuvCkKrYXM2WxxtzLzrY7DZka5ULwliHAHrF_SFo3m39WeRMQYmWi1rGERR3psPDQA2hxYXk0xz1D9IrBGS41RfexKNKiprllAZBE9gYklsOGnN4zDtWiVo4CKkYDje_d_0P1oA&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '紅樓麻辣燙', '621台灣嘉義縣民雄鄉文化路4-2號', 4.4, '無資料', 'https://www.facebook.com/HongLouMaLaTang/', '營業中'],['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEAN0nO_h9o3AgbEMHH7mhtnMCGd_iiTcXMtBpGmbfMLpd-H4W-6baELvRkd_CWillGvq8UIPRKw3HgIdbrs_cadQ1RV-sqxOvNOkBMJunbrxsmTUPQytWpBseZRoA7nosbi4F0WZV-4LR75NsMloaXiea7GEKqqltEhzsHSH4hZH6Jm&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '蜀川麻辣鴛鴦鍋', '621台灣嘉義縣民雄鄉保生街197號', 4.3, '05 226 9183', 'http://hot-pot-restaurant-218.business.site/', '營業中'],['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEDKdV-KSPE1X5vdJJbovimqNmumYzVX4WS_yFGSjqcP9v7IoxSBjY7eClpLpIKer9MVNprFlSq9tkF4Dw6yJ2GAZBvXAVYSMqkENQIW1CL5IjO4rSZPui2o4-sE9MDOeYeXBP2GYC76Sg6732AGAz0hN7eoZ7jdd93-spWZNgJwDt9j&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '辛屋鴛鴦鍋物 民雄店', '621台灣嘉義縣民雄鄉保生街216號', 4.4, '05 206 0896', '無資料', '營業中'], ['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uECoRkDL-FGVcpmgW2Ec2N7RN-61fscvw5MYGn00bT-9kDP_qKmTIgqWc2NH3R-1KKKZjfXvricXu6cecGUAu0_aiFIAY8ui_1Dlcrp4f3zVoT-tjRiy5onTVH8nXd2xAC1m4M9xXNpkivZKEgSnlK73i6CI4_KHgao_KlRs20_bzBoM&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', 'Oppa川丸子麻辣燙-民雄文化直營店', '621台灣嘉義縣民雄鄉文化路30-19號', 3.9, '05 206 5657', 'https://www.facebook.com/pg/Oppa.Minxiong/posts/?ref=page_internal', '休息 中'], ['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEBmuGfz9_cc901DF3RdDB3tqJsyD1gYc-9ECfQLsU2Qt7laJDyuR0e9QdwLnae1T163elyqJsn0vwWMlsA3hjjlSSz21u0OQeuwhyLVN4Uvu3MX1vUe8nubvHWwX4erEzxStJeSFvS4aR0KbB7zSloYz9JM2RWWA0oCoWBRhg1JsBdo&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '鬼椒麻辣王', '621台灣嘉義縣民雄 鄉建國路二段415號附5', 4.2, '05 206 7158', 'http://www.bhutjolokia.com.tw/p/', '休息中'], ['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEDW_N12oIYE-EGAHjAs7ZYWpE4wMmj5nnIUqXuPfkQpPlMgVsrkcPxw52DqbJr3mlQAbql1SMrekv7JmTwbJhD7cKO80Af5Ug7Vcu9jYtVxYaVcbRN3URQtdlRbDHlaU0CSkYhzEUKBoTZTS3ji3teTO8FpdiuBvrdvynIuxI3pL7JL&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '川醉湘麻辣燙 嘉義民雄店', '621台灣嘉義縣民雄鄉保生街150之2號', 3.4, '無資料', '無資料', '休息中'], ['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEBEPx-cQl7XmZJUAfjEh5W98BPWMl0E0-_WRRDKjQAedOaZNMSkAAQrK77f0n0m9-VZBm6VuOuhq55fw-YiPyEawhteRlsCd2Bbyo4BAC4xzm7vRfqOERWyiRX9iPyPeeni4PtjudRn1k83C1CTwDkLFV-u5i6puvIpRtSixtf9ePPH&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '湯師父 美味鍋24Ｈ（嘉義民雄）', '621台灣嘉義縣民雄鄉建國路一段45號', 3.9, '05 226 5222', 'https://www.facebook.com/%E6%B9%AF%E5%B8%AB%E7%88%B6%E7%BE%8E%E5%91%B3%E9%8D%8B-%E5%98%89%E7%BE%A9%E6%B0%91%E6%97%8F%E5%BA%97-249701818510065', '營業中'], ['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEANOA92CmuQyjNwAjTO_FFReDHO7dOi_1fcQjdgcQtDKwSMyfg0ObCO2GqjHENRE_sKpdELYCz16XgDG9zKDOMXPDFZ7pE8NgjceuAPSZQLZr8R2fkmUNoM5UyyTCP1z4R037mqU5Vygj7O2_eglZHEzZjkKaPQy_Hdu1Qcz_rYhtZG&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '大呼過癮臭臭鍋(民雄店)民雄美食/民雄美食 ', '621台灣嘉義縣民雄鄉民溪南路369號之5號', 4.2, '05 226 2785', 'https://www.052262785.com/', '營業中'],['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEBHeuijJzYbK4hrZAibx7jLkLMy_LWIlpz0fjaluK1ZJN9wtqDBMYZCmyz6vu1LqgVeiwr8d5nwPiG8-CW9laUnLkCmDHdnkPhVxq5ZN8vQXLbhQygFKOv_mLss9vHCJG9pV3fOz-7QBcbC0l7YRHLhf_vGTQ4kWtKtyu8OTHfGMYe9&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '六扇門時尚 湯鍋 民雄保生店', '621台灣嘉義縣民雄鄉保生街211號', 4.2, '05 206 0900', '無資料', '營業中'], ['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference=Aap_uEBxsroxEBhiI9uxSWyx37zGpwWWgXR3ZKMw1OMbrjWFs-pjPqPkMI_Fq643dQcnrfzOvsgfYbryOCjWqZcl2aCYbOjLw9V5cUr3K7PxxUhvwAbpqmw-wjqapzVshpedA96EavNuzSCr0XBA55zCQFzKB38zGk5tlzyzVO9v_olc9mke&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A', '米澤日式涮涮鍋', '621台灣嘉義縣民雄鄉保生街189號', 4.2, '05 226 9156', 'https://www.facebook.com/pages/%E6%B0%91%E9%9B%84%E7%B1%B3%E6%BE%A4%E7%81%AB%E9%8D%8B%E5%BA%97/188455917885224', '營業中']]
+# 處理訊息
+@handler.add(MessageEvent)
+def handle_message(event):
+    tmp_text=event.message.text
+    match = re.search(r'^[(A|a)ccount:]', tmp_text)
+    recommend=re.search(r'^[(R|r)ecommend:]', tmp_text)
+    if(event.message.type == 'location'):
+        lat,lng = message_location(event)
+        ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)
+        message = TextSendMessage(text = ap)
+        line_bot_api.reply_message(event.reply_token, message)
+    
+    elif match:
+        tmp = tmp_text.lstrip('Aacount')
+        tmp = tmp.lstrip(':')
+        message = TextSendMessage(text = tmp)
+        line_bot_api.reply_message(event.reply_token, message)
+    
+    elif recommend:
+        tmp = tmp_text.lstrip('Rrecomend')
+        tmp = tmp.lstrip(':')
+        message = TextSendMessage(text = tmp)
+        line_bot_api.reply_message(event.reply_token, message)
+    
+    elif event.message.text == "魔女食堂":
+        line_bot_api.reply_message( event.reply_token,TemplateSendMessage(
+            alt_text='CarouselTemplate',
+            template=CarouselTemplate(
+            columns =[message_link(i) for i in a]
+
+            )
+        ))
 
 if __name__ == 'main':
     app.run() #啟動伺服器

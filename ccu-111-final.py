@@ -365,9 +365,21 @@ def handle_message(event):
         pass
     #位置資訊則進入第一個if
     if(event.message.type == 'location'):
+        #找出user_lineid
         user_id=User_id(event)
-        message = TextSendMessage(text = user_id)
+        
+        #利用user_id找出user想被推薦的食物種類
+        conn = psycopg2.connect(database_url,sslmode='require')
+        cursor=conn.cursor()
+
+        sql="SELECT favorite FROM user_data where user_lineid='{user_id}' "/
+            .format(user_id=userid)
+        cursor.execute(sql)
+        favorite_data=cursor.fetchall()
+        favorite=[list(favorite[0]]]
+        message = TextSendMessage(text = favorite[0][0])
         line_bot_api.reply_message(event.reply_token, message)
+
         
         lat,lng = message_location(event)
         #ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)

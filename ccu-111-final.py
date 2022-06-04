@@ -22,35 +22,6 @@ def home():
     if request.method =='GET':
         #抓取使用者資料
         """
-        #這邊試著把離現在最近的十筆資料抓出來
-        conn = psycopg2.connect(database_url,sslmode='require')
-        cursor=conn.cursor()
-        sql="SELECT * FROM history_eat WHERE user_name='{user_name}' ORDER BY day DESC LIMIT 10 ".format(user_name='2')
-        cursor.execute(sql)
-        all_data=cursor.fetchall()
-        cursor.close()
-        conn.close()
-        #先在前面加資料數量
-        history_data=[len(all_data)]
-        
-        #再把資料一個一個抓進去，注意時間先轉成字串
-        for i in all_data:
-            for j in range(1,len(i)):
-                if(j<3):
-                    history_data.append(i[j])
-                else:
-                    tmp=str(i[j])
-                    history_data.append(tmp)
-
-        #如果無資料則改成''
-        for i in range(len(history_data)):
-            if(history_data[i]==None):
-                history_data[i]=''
-        #再轉成字串
-        history_data=str(history_data).strip('[]')    
-        history_data=str(history_data)
-        """
-        """
         session['session_password']='bbbb'
         key=session.get('session_password')
         if (key == None):
@@ -195,7 +166,7 @@ def login():
 #推薦系統
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
-    """
+    
     name=request.values['search_name']
     
     #先抓取資料庫的資料
@@ -222,12 +193,12 @@ def recommend():
     
     target_len=round(math.sqrt(target_len),4)
     all_data=[list(i) for i in all_data]
-    """
+    
 
     """ 協同過濾
         計算目標資料和其他資料的餘弦相似度
         並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳"""
-    """
+    
     max_cos=[]
     max_name=[]
     for i in all_data:
@@ -296,7 +267,7 @@ def recommend():
     #關閉資料庫連線
     cursor.close()
     conn.close()
-    """
+    
     return render_template("home.html",recommend="test")
 
 

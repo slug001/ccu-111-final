@@ -4,3 +4,5 @@ PyMySQL
 json5
 requests
 psycopg2
+line-bot-sdk
+imgurpython==1.1.7

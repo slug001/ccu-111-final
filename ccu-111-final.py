@@ -359,8 +359,8 @@ def handle_message(event):
     #如果是文字訊息則看使否有啟動字元
     try:
         tmp_text=event.message.text
-        match = re.search(r'^[(A|a)ccount:]', tmp_text)
-        recommend=re.search(r'^[(R|r)1(ecommend:)1]', tmp_text)
+        match = re.search(r'^(A|a){1}(ccount:){1}', tmp_text)
+        recommend=re.search(r'^(R|r){1}(ecommend:){1}', tmp_text)
     except:
         pass
     #位置資訊則進入第一個if

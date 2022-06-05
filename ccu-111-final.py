@@ -538,6 +538,12 @@ def handle_message(event):
         message = TextSendMessage(text = return_text)
         line_bot_api.reply_message(event.reply_token, message)
         
+    #尋找過去紀錄
+    elif event.message.text == "record":
+        user_id=User_id(event)
+        message = TextSendMessage(text = str(user_id))
+        line_bot_api.reply_message(event.reply_token, message)
+        
     #資料==魔女食堂
     elif event.message.text == "魔女食堂":
         line_bot_api.reply_message( event.reply_token,TemplateSendMessage(

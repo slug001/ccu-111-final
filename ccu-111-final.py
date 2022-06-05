@@ -360,7 +360,7 @@ def handle_message(event):
     try:
         tmp_text=event.message.text
         match = re.search(r'^[(A|a)ccount:]', tmp_text)
-        recommend=re.search(r'^[(R|r)ecommend:]', tmp_text)
+        recommend=re.search(r'^[(R|r)'ecommend:']', tmp_text)
     except:
         pass
     #位置資訊則進入第一個if

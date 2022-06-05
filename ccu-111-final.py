@@ -446,7 +446,7 @@ def handle_message(event):
         
         #data_for_line=[data_for_line[i] for i in range(2)]
         message = TextSendMessage(text = str(data_for_line))
-        #line_bot_api.reply_message(event.reply_token, message)
+        line_bot_api.reply_message(event.reply_token, message)
         
         line_bot_api.reply_message( event.reply_token,TemplateSendMessage(
             alt_text='CarouselTemplate',

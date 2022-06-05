@@ -398,8 +398,11 @@ def handle_message(event):
         res=json.loads(response.text)
         
         data_for_line=[]
+        data_num=0
 
         for i in res['results']:
+            if(data_num>=10):
+                break
             url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
                 .format(place_id=i['place_id'])
             payload={}
@@ -443,8 +446,9 @@ def handle_message(event):
             data_name[0]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_name[0])
             data_name[6]='營業中' if data_name[6]== True else '休息中'
             data_for_line.append(data_name)
+            data_num+=1
         
-        data_for_line=[data_for_line[i] for i in range(10)]
+        #data_for_line=[data_for_line[i] for i in range(10)]
         #message = TextSendMessage(text = str(data_for_line))
         #line_bot_api.reply_message(event.reply_token, message)
         

@@ -382,14 +382,14 @@ def handle_message(event):
         cursor.close()
         conn.close()
 
-        message = TextSendMessage(text = favorite[0])
-        line_bot_api.reply_message(event.reply_token, message)
+        #message = TextSendMessage(text = favorite[0])
+        #line_bot_api.reply_message(event.reply_token, message)
         
         lat,lng = message_location(event)
         #ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)
         #尋找附近的店家
         url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude}, {longitude}&radius=2000&keyword={keyword}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
-            .format(latitude=lat,longitude=lng,keyword='麻辣')
+            .format(latitude=lat,longitude=lng,keyword=favorite[0])
         payload={}
         headers = {}
         #尋找附近店家

@@ -444,7 +444,7 @@ def handle_message(event):
             data_name[6]='營業中' if data_name[6]== True else '休息中'
             data_for_line.append(data_name)
         
-        data_for_line=[data_for_line[i] for i in range(3)]
+        data_for_line=[data_for_line[i] for i in range(2)]
         message = TextSendMessage(text = str(data_for_line))
         line_bot_api.reply_message(event.reply_token, message)
         

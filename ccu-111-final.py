@@ -379,19 +379,21 @@ def handle_message(event):
         favorite=[list(i) for i in favorite]
         favorite=[i[0] for i in favorite]     
         
+        #記得關閉資料庫連線
         cursor.close()
         conn.close()
 
-        #message = TextSendMessage(text = favorite[0])
-        #line_bot_api.reply_message(event.reply_token, message)
         
+        #獲取使用者現在經緯度
         lat,lng = message_location(event)
         #ap = "經度:{lat},緯度:{lng}".format(lat=lat,lng=lng)
+        
         #尋找附近的店家
         url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude}, {longitude}&radius=2000&keyword='{keyword}'&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
             .format(latitude=lat,longitude=lng,keyword=favorite[0])
         payload={}
         headers = {}
+        
         #尋找附近店家
         response = requests.request("GET", url, headers=headers, data=payload)
         response.json()
@@ -399,7 +401,8 @@ def handle_message(event):
         
         data_for_line=[]
         data_num=0
-
+        
+        #整理店家資料[照片連結,名稱,地址,評分,電話,官網,是否營業]
         for i in res['results']:
             if(data_num>=10):
                 break
@@ -442,26 +445,21 @@ def handle_message(event):
                 data_name[6]=detail['result']['opening_hours']['open_now']
             except KeyError:
                 data_name[6]="無資料"
-
+            
+            #找到圖片id後，要用google提供的api找出圖片
             data_name[0]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_name[0])
             data_name[6]='營業中' if data_name[6]== True else '休息中'
             data_for_line.append(data_name)
             data_num+=1
         
-        #data_for_line=[data_for_line[i] for i in range(10)]
-        #message = TextSendMessage(text = str(data_for_line))
-        #line_bot_api.reply_message(event.reply_token, message)
-        
+        #傳入副函式並顯示在line中
         line_bot_api.reply_message( event.reply_token,TemplateSendMessage(
             alt_text='CarouselTemplate',
             template=CarouselTemplate(
             columns =[message_link(i) for i in data_for_line]
             )
         ))
-        
-        #message = TextSendMessage(text = '23')
-        #line_bot_api.reply_message(event.reply_token, message)
-        
+         
     #match是設定使用者帳號的功能
     elif match:
         user_id=User_id(event)

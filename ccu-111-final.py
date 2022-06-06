@@ -203,7 +203,7 @@ def login():
     if(user_name in all_user_name):
         cursor.close()
         conn.close()
-        return render_template("account",login_status="error")
+        return render_template("account.html",login_status="error")
     #新的名稱則把資料記錄在user_data和restaurant_data裡
     sql="INSERT INTO user_data(user_name,user_password) VALUES(%s,%s)"
     val=(user_name,user_password)

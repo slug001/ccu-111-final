@@ -399,9 +399,8 @@ def recommend():
         data_for_web.extend(data_web)
     data_for_web=[str(i) for i in data_for_web]
     data_for_web_str=",".join(data_for_web)
-    #for i in data_for_web:
-    #    data_for_web_str+=str(i)
-    return render_template("recommend.html",login_status=login_status,recommendData=data_for_web_str,test=data_for_web_str)
+
+    return render_template("recommend.html",login_status=login_status,recommendData=data_for_web_str)
     
 
 #line-bot

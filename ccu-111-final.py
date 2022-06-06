@@ -540,8 +540,24 @@ def handle_message(event):
         
     #尋找過去紀錄
     elif event.message.text == "record":
+        #先找出使用者user_id
         user_id=User_id(event)
-        message = TextSendMessage(text = str(user_id))
+        
+        #利用id找出使用者名稱
+        #資料庫連線
+        conn = psycopg2.connect(database_url,sslmode='require')
+        cursor=conn.cursor()
+        
+        sql="SELECT user_name FROM user_data WHERE line_userid='{user_id}'".format(user_id=user_id)
+        cursor.execute(sql)
+        user_name=cursor.fetchall()
+        user_name=user_name[0][0]
+        
+        #關閉資料庫
+        cursor.close()
+        conn.close()
+        
+        message = TextSendMessage(text = user_name)
         line_bot_api.reply_message(event.reply_token, message)
         
     #資料==魔女食堂

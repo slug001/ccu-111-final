@@ -400,7 +400,7 @@ def recommend():
     data_for_web_str=''
     for i in data_for_web:
         data_for_web_str+=str(i)
-    return render_template("recommend.html",recommendData=data_for_web_str)
+    return render_template("recommend.html",login_status=login_status,recommendData=data_for_web_str)
     
 
 #line-bot

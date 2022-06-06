@@ -350,10 +350,10 @@ def recommend():
             if(data_web[i]=="無資料"):
                 data_web[i]=="https://media.istockphoto.com/vectors/open-source-concept-trendy-icon-simple-line-colored-illustration-vector-id1160220663"
             else:
-                data_web[i]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_web[i])
+                data_web[i]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=250&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_web[i])
         data_web[4]='營業中' if data_web[4]== True else '休息中'
-        data_for_web.append(data_web)
-        
+        data_for_web.extend(data_web)
+    data_for_web=str(data_for_web).strip('[]')
     return render_template("home.html",recommend=data_for_web)
 
 

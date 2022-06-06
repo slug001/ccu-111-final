@@ -124,10 +124,14 @@ def record():
     for i in range(len(history_data)):
         if(history_data[i]==None):
             history_data[i]=''
+            
     #再轉成字串
-    history_data=str(history_data).strip('[]')    
-    history_data=str(history_data)
-    return render_template("record.html",historyData=history_data)
+    history_data_str=''
+    for i in history_data:
+        history_data_str+=str(i)
+    #history_data=str(history_data).strip('[]')    
+    #history_data=str(history_data)
+    return render_template("record.html",historyData=history_data_str)
 
 
 #登入頁面

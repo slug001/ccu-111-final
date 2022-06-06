@@ -355,7 +355,7 @@ def recommend():
         data_web[4]='營業中' if data_web[4]== True else '休息中'
         data_for_web.extend(data_web)
     data_for_web=str(data_for_web).strip('[]')
-    return render_template("recommend.html",recommandData=data_for_web)
+    return render_template("recommend.html",recommendData=data_for_web)
 
 
 #line-bot

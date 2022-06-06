@@ -361,6 +361,7 @@ def handle_message(event):
         tmp_text=event.message.text
         match = re.search(r'^(A|a){1}(ccount:){1}', tmp_text)
         recommend=re.search(r'^(R|r){1}(ecommend:){1}', tmp_text)
+        record=re.search(r'^(R|r){1}(ecord){1}',tmp_text)
     except:
         pass
     #位置資訊則進入第一個if
@@ -539,7 +540,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         
     #尋找過去飲食紀錄
-    elif event.message.text == "record":
+    elif record:
         #先找出使用者user_id
         user_id=User_id(event)
         
@@ -562,7 +563,7 @@ def handle_message(event):
         final_data=""
         for i in record_data:
             day=str(i[3])
-            final_data+="日期 :{day}\n店家名稱 :{name}\n評分 :{rank}\n"\
+            final_data+="日期 :{day}\n店家名稱 :{name}\n評分 :{rank}\n\n"\
                 .format(day=day[:-6],name=i[1],rank=i[2])
         #關閉資料庫
         cursor.close()

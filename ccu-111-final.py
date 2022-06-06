@@ -397,9 +397,9 @@ def recommend():
                 data_web[i]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=250&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_web[i])
         data_web[4]='營業中' if data_web[4]== True else '休息中'
         data_for_web.extend(data_web)
-    data_for_web_str=''
-    for i in data_for_web:
-        data_for_web_str+=str(i)
+    data_for_web_str=','.join(data_for_web)
+    #for i in data_for_web:
+    #    data_for_web_str+=str(i)
     return render_template("recommend.html",login_status=login_status,recommendData=data_for_web_str,test=data_for_web_str)
     
 

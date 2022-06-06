@@ -40,7 +40,7 @@ def check_login():
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        session['session_password']='87cry'
+        session['session_password']='2'
         login_status,login_account=check_login()
         
         
@@ -189,8 +189,8 @@ def logout():
 #推薦系統
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
-    
-    name=request.values['search_name']
+    login_status,login_account=check_login()
+    #name=request.values['search_name']
     
     #先抓取資料庫的資料
     conn = psycopg2.connect(database_url,sslmode='require')
@@ -200,7 +200,7 @@ def recommend():
     cursor.execute(sql)
     all_data=cursor.fetchall()
     
-    sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=name)
+    sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=login_account)
     cursor.execute(sql)
     target_data=cursor.fetchall()
 
@@ -345,6 +345,7 @@ def recommend():
         except KeyError:
             data_web[7]="無資料"
         
+        data_web[1]="https://www.foodpanda.com.tw/" if data_web[1]=="無資料" else data_web[1]
         for i in range(5,8):
             #如果圖片不存在則利用指定圖片代替
             if(data_web[i]=="無資料"):
@@ -354,7 +355,7 @@ def recommend():
         data_web[4]='營業中' if data_web[4]== True else '休息中'
         data_for_web.extend(data_web)
     data_for_web=str(data_for_web).strip('[]')
-    return render_template("home.html",recommend=data_for_web)
+    return render_template("recommend.html",recommandData=data_for_web)
 
 
 #line-bot

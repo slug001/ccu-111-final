@@ -232,7 +232,7 @@ def logout():
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
     login_status,login_account=check_login()
-
+    return render_template("recommend.html")
     
     #先抓取資料庫的資料
     conn = psycopg2.connect(database_url,sslmode='require')
@@ -245,7 +245,8 @@ def recommend():
     sql="SELECT * FROM restaurant_data WHERE user_name='{user_name}'".format(user_name=login_account)
     cursor.execute(sql)
     target_data=cursor.fetchall()
-
+    
+    
     #計算資料長度和轉換格式
     target_len=0
     target_data=[list(i) for i in target_data]
@@ -263,7 +264,6 @@ def recommend():
     """ 協同過濾
         計算目標資料和其他資料的餘弦相似度
         並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳"""
-    
     max_cos=[]
     max_name=[]
     for i in all_data:
@@ -289,8 +289,7 @@ def recommend():
                 max_name[switch]=i[0]
         elif(other_len>0 and all_cos>0):
             max_cos.append(final_cos)
-            max_name.append(i[0])
-            
+            max_name.append(i[0])   
     #找出相似的使用者後再找出他們資料庫中的評分資料
     recommend_data=[]
     for name in max_name:

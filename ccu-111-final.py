@@ -559,11 +559,15 @@ def handle_message(event):
         record_data=cursor.fetchall()
         record_data=[list(i) for i in record_data]
         
+        final_data=""
+        for i in record_data:
+            final_data+="日期 :{day}\n店家名稱 :{name}\n評分 :{rank}\n"\
+                .format(day=str(i[3]),name=i[1],rank=i[2])
         #關閉資料庫
         cursor.close()
         conn.close()
         
-        message = TextSendMessage(text = str(record_data))
+        message = TextSendMessage(text = final_data)
         line_bot_api.reply_message(event.reply_token, message)
         
     #資料==魔女食堂

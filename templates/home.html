@@ -1,0 +1,244 @@
+{%extends "base.html"%}
+
+{% block head %}
+<title>魔女食堂(紀錄)</title>
+<style>
+    .main-field{
+        margin-left: 15%;margin-right: 15%;
+        display: flex;
+    }
+    #map-field{
+        height: 400px; width: 100%;
+        border-radius: 4px;
+        border: 2px solid black;
+    }
+    #map {
+        position: relative;
+        top: 0%;
+        left: 0%;
+        height: 100%;
+        width: 100%;
+    }
+    #rate-field{
+        margin-left: 20px;
+        padding-left: 2%;padding-right: 2%;
+        border-radius: 4px;
+        border: 2px solid black;
+        background-color: rgb(221, 255, 255);
+        flex: auto;
+        display: none; justify-content: center;
+    }
+    .rcd-field{
+        margin-top: 15px;margin-left: 18%;margin-right: 18%;
+        border-radius: 8px;
+        border: 2px solid black;
+        background-color: rgb(255, 239, 219);
+        font-size: 18px;
+        padding-left: 35px; padding-right: 35px;
+    }
+    .upper-field{
+        border-bottom: 1px solid #dedede;
+        padding-top: 5px; padding-bottom: 5px;
+    }
+    .downer-field{
+        display: flex;
+        padding-top: 8px; padding-bottom: 8px;
+    }
+    .pictures{
+        margin-left: 18%;margin-right: 18%;
+    }
+    .picture{
+        height: 250px; width: 33%;
+        border-radius: 6px;
+    }
+</style>
+{% endblock %}
+
+
+{% block main %}
+<div style="margin-left: 50px; margin-right: 50px; margin-top: 30px; margin-bottom: 30px; padding-left: 39%;"><img src="C:\code\GitHub\Flask\gallery\logo2.png" /></div>
+
+<div class="main-field">
+    <div id="map-field"><div id="map"></div></div>
+    <div id="rate-field">
+        <form action="https://www.youtube.com/channel/UCXTpFs_3PqI41qX2d9tL2Rw">
+            <h4 style="padding-top: 10px;text-align: center;margin-bottom: 25px;">評分</h4>
+            <div style="margin-bottom: 12px;">
+                <label for="eat" style="font-size: 18px; margin-right: 10px;">餐廳名稱:</label>
+                <input name="eat" id="eat" list="restaurant" />
+                <datalist id="restaurant"></datalist>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label for="rate" style="font-size: 18px; margin-right: 10px;">評分:</label>
+                <select name="rate" id="rate">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10" selected>10</option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: center">
+                <button>送出</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="margin-top: 20px; margin-bottom: 30px; display: flex; justify-content: center;">
+    <form action="https://www.youtube.com/channel/UCXTpFs_3PqI41qX2d9tL2Rw">
+        <label for="eat" style="font-size: 18px; margin-right: 10px;">吃啥:</label>
+        <input name="eat" id="eat" />
+        <button>按我</button>
+    </form>
+</div>
+
+<div id="new-rcd" style="margin-bottom: 35px;"></div>
+
+<div id="input" style="display: none;">{{recommandData}}</div>
+<div id="shop-name" style="display: none;">
+A-bao house 民雄東榮店
+民雄照記芋圓
+北門滷味
+真香牛肉麵
+允好食堂
+異香屋平價美食
+小妞滷味
+舜御食坊
+永富川味麵館
+辰品日式料理
+民雄廟口碳烤雞排
+古早味伙食工坊
+北方牛肉麵館
+阿吉麵攤
+阿立鱔魚麵
+德洋 寿司
+令和日式海鮮店
+萬里香控肉飯
+爌肉飯
+麥飯樂民雄店
+在地食坊
+阿國鱔魚麵
+阜壽司
+香港梁記燒臘
+湯師父美味鍋24Ｈ（嘉義民雄）
+吃呼飽魯肉飯
+民雄原大士爺廟旁傳統老店掽皮切仔麵
+京品北方麵食館
+小紅帽脆皮章魚燒 民雄店
+六扇門時尚湯鍋 民雄保生店
+劉妹鍋燒意麵-嘉義民雄店
+龍坐鐵板燒
+渡對
+嘉義民雄 扁食意麵
+民雄麵攤
+福記水餃館
+家園火雞肉飯
+8鍋臭臭鍋
+開心火雞肉飯
+煮丼一点
+紘嬅燴飯
+正宗民雄鵝肉亭
+拐彎抹角炙燒牛排 嘉義民雄店
+三媽臭臭鍋昇平店
+米澤日式涮涮鍋
+君品壽司便當店
+周董牛肉麵
+華南碗粿 民雄店
+一魂拉麵 民雄店
+三十三天素食海苔飯捲
+爭鮮迴轉壽司-民雄店
+民雄阿君鵝肉店
+五花馬水餃館(民雄門市)
+濟濟一堂 - 咖哩專賣
+松阪家日式料理
+初八拉麵-民雄店
+民雄薑母鴨羊肉爐
+大埔鐵板燒嘉義民雄店
+香園鍋燒麵
+京川鍋物 民雄店
+品香鹽水鴨飯麵
+夯仔內牛肉麵食館-嘉義民雄店
+蜀川麻辣鴛鴦鍋
+阿堂生炒鱔魚麵
+越南美食
+草魚的店
+老地方廚房
+花亭壽司專賣
+蚵仔煎
+木村御飯糰&可樂餅
+伊豆壽司
+頂好馨平價鍋物 民雄店
+民雄掽皮麵
+俗擱大碗小吃店
+金御咖哩民雄店 北欧瑞典咖哩
+豚將拉麵-民雄店
+鹿霸雞白湯鍋燒意麵－民雄店
+鳳六郎 - 歡聚湯鍋 “嘉義民雄店”
+小燈步道
+阿嫦火雞肉飯
+大呼過癮臭臭鍋(民雄店)民雄美食/民雄美食推薦/民雄小吃/民雄火鍋/民雄小火鍋/民雄必吃
+紅樓麻辣燙
+小甜甜火雞肉飯
+悅來食堂
+晴樂廚房（晴樂滷味）
+Oppa川丸子麻辣燙-民雄文化直營店
+南魯味
+有間鍋物
+民雄椪皮麵
+5❤️涼麵、鍋燒麵、味噌湯
+嘉義火雞肉飯 咖哩飯
+阿寬的店 水餃
+辛屋鴛鴦鍋物 民雄店
+佑壽司
+民雄當歸鴨麵線
+鬼椒麻辣王
+</div>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw&callback=initMap" ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById("map") , {
+            center: { lat: 25.046891, lng: 121.516602 },//中心位置
+            zoom: 14,
+        });
+        //--------下面是呼叫一個新marker------
+        var marker = new google.maps.Marker({
+            position: { lat: 25.046891, lng: 121.516602 }, //marker的放置位置
+            map: map //這邊的map指的是第3行的map變數
+        });
+    }
+
+    if(document.querySelector('#loginReady').innerText == 'yes'){
+        map = document.querySelector('#map-field');
+        map.style.width = '60%';
+        rate = document.querySelector('#rate-field');
+        rate.style.display = 'flex';
+    }
+
+    let input = document.querySelector('#input').innerText;
+    let array = input.split(',');
+    let runtime = array[0];
+    for(let i=0; i<runtime; i++){
+        let j = i*8;
+        let newdiv = document.createElement('div');
+        newdiv.innerHTML = '<div class="rcd-field"><div class="upper-field"><a style="cursor: pointer; font-size:24px; color: black;" href="'+array[j+2]+'">餐廳名稱: '+array[j+1]+'</a></div><div class="downer-field"><div style="flex: none; width: 50%;">電話: '+array[j+3]+'</div><div style="flex: auto;">評分: '+array[j+4]+'</div><div style="flex: auto;">營業狀態: '+array[j+5]+'</div></div></div><div class="pictures"><img class="picture" src="'+array[j+6]+'" /><img class="picture" src="'+array[j+7]+'" /><img class="picture" src="'+array[j+8]+'" /></div>';
+        document.querySelector('#new-rcd').append(newdiv);
+    }
+
+    let shops_name = document.querySelector('#shop-name');
+    let shops = shops_name.innerHTML.split('\n').slice(1, -1);
+    let res = document.querySelector('#restaurant');
+    for(let i=0; i<shops.length; i++){
+        let new_shop = document.createElement('option');
+        new_shop.value = shops[i];
+        res.append(new_shop);
+    }
+</script>
+{% endblock %}

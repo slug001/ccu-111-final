@@ -1,0 +1,70 @@
+{%extends "base.html"%}
+
+{% block head %}
+<title>魔女食堂(推薦)</title>
+<style>
+    .rcd-field{
+        margin-top: 15px;margin-left: 18%;margin-right: 18%;
+        border-radius: 8px;
+        border: 2px solid black;
+        background-color: rgb(255, 239, 219);
+        font-size: 18px;
+        padding-left: 35px; padding-right: 35px;
+    }
+    .upper-field{
+        border-bottom: 1px solid #dedede;
+        padding-top: 5px; padding-bottom: 5px;
+    }
+    .downer-field{
+        display: flex;
+        padding-top: 8px; padding-bottom: 8px;
+    }
+    .pictures{
+        margin-left: 18%;margin-right: 18%;
+    }
+    .picture{
+        height: 250px; width: 33%;
+        border-radius: 6px;
+    }
+</style>
+{% endblock %}
+
+
+{% block main %}
+<div style="margin: 50px;"><h3 style="text-align: center;">餐飲推薦</h3></div>
+
+<div style="display: none;"> 
+    <div class="rcd-field">
+        <div class="upper-field">
+            <a style="cursor: pointer; font-size:24px; color: black;" href="https://www.google.com">餐廳名稱: 小魔女</a>
+        </div>
+        <div class="downer-field">
+            <div style="flex: none; width: 50%;">電話: 0987-666-321/(03)5412-287</div>
+            <div style="flex: auto;">評分: 滿分</div>
+            <div style="flex: auto;">營業狀態: 營業中</div>
+        </div>
+    </div>
+
+    <div class="pictures">
+        <img class="picture" src="C:\code\GitHub\Flask\gallery\anya_starburst.gif" />
+        <img class="picture" src="C:\code\GitHub\Flask\gallery\anya_starburst.gif" />
+        <img class="picture" src="C:\code\GitHub\Flask\gallery\anya_starburst.gif" />
+    </div>
+</div>
+
+<div id="new-rcd" style="margin-bottom: 35px;"></div>
+
+<div id="input" style="display: none;">{{recommendData}}</div>
+
+<script>
+    let input = document.querySelector('#input').innerText;
+    let array = input.split(',');
+    let runtime = array[0];
+    for(let i=0; i<runtime; i++){
+        let j = i*8;
+        let newdiv = document.createElement('div');
+        newdiv.innerHTML = '<div class="rcd-field"><div class="upper-field"><a style="cursor: pointer; font-size:24px; color: black;" href="'+array[j+2]+'">餐廳名稱: '+array[j+1]+'</a></div><div class="downer-field"><div style="flex: none; width: 50%;">電話: '+array[j+3]+'</div><div style="flex: auto;">評分: '+array[j+4]+'</div><div style="flex: auto;">營業狀態: '+array[j+5]+'</div></div></div><div class="pictures"><img class="picture" src="'+array[j+6]+'" /><img class="picture" src="'+array[j+7]+'" /><img class="picture" src="'+array[j+8]+'" /></div>';
+        document.querySelector('#new-rcd').append(newdiv);
+    }
+</script>
+{% endblock %}

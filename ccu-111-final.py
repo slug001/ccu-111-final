@@ -266,6 +266,7 @@ def recommend():
     max_cos=[]
     max_name=[]
     for i in all_data:
+        
         other_len=0;all_cos=0;final_cos=0
         if(i[0]==name):
             continue
@@ -339,7 +340,7 @@ def recommend():
     #關閉資料庫連線
     cursor.close()
     conn.close()
-    return render_template("recommend.html",login_status=login_status)
+    return render_template("recommend.html",login_status=login_status,test=all_data)
     """
     data_for_web=[len(rest_id)]
     #再利用店家id尋找店家詳細資訊

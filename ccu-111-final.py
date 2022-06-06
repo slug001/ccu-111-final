@@ -245,7 +245,7 @@ def recommend():
     cursor.execute(sql)
     target_data=cursor.fetchall()
     
-    
+    """
     #計算資料長度和轉換格式
     target_len=0
     target_data=[list(i) for i in target_data]
@@ -260,9 +260,9 @@ def recommend():
     all_data=[list(i) for i in all_data]
     
 
-    """ 協同過濾
-        計算目標資料和其他資料的餘弦相似度
-        並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳"""
+    #協同過濾
+    #   計算目標資料和其他資料的餘弦相似度
+    #   並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳
     max_cos=[]
     max_name=[]
     for i in all_data:
@@ -326,7 +326,7 @@ def recommend():
         else:
             best_rest_rank.append(final_rank)
             best_rest_name.append(all_restaurant_name[i])
-    """
+    
     rest_id=[]
     #尋找店家id
     for name in best_rest_name:
@@ -334,7 +334,7 @@ def recommend():
         cursor.execute(sql)
         id=cursor.fetchall()
         rest_id.append(id[0][0])
-        """
+    """
     #關閉資料庫連線
     cursor.close()
     conn.close()

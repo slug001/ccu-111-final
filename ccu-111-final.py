@@ -289,6 +289,7 @@ def recommend():
         elif(other_len>0 and all_cos>0):
             max_cos.append(final_cos)
             max_name.append(i[0])   
+    """
     #找出相似的使用者後再找出他們資料庫中的評分資料
     recommend_data=[]
     for name in max_name:
@@ -296,7 +297,7 @@ def recommend():
         cursor.execute(sql)
         tmp_data=cursor.fetchall()
         recommend_data.append(list(tmp_data[0]))
-    """
+    
     #先抓餐廳名稱，再找出共同喜愛的幾家餐廳
     best_rest_rank=[];best_rest_name=[]
     sql="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='restaurant_data'"

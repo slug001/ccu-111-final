@@ -286,12 +286,20 @@ def recommend():
         else:
             best_rest_rank.append(final_rank)
             best_rest_name.append(all_restaurant_name[i])
-            
+    
+    rest_id=[]
+    #尋找店家id
+    for name in best_rest_name:
+        sql="SELECT id FROM restaurant_id WHERE name='{name}'".format(name=name)
+        cursor.execute(sql)
+        id=cursor.fetchall()
+        rest_id.append(id[0][0])
+        
     #關閉資料庫連線
     cursor.close()
     conn.close()
     
-    return render_template("home.html",recommend=best_rest_name)
+    return render_template("home.html",recommend=rest_id)
 
 
 #line-bot

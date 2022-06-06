@@ -170,16 +170,25 @@ def login():
         return render_template("account.html",login_status="error")
         
     
+@app.route("/new_account", methods=['GET','POST'])
+def login():
+    #嘗試獲取資料
+    if (request.method =='GET'):
+        return render_template("account.html")
+    try:
+        user_name=request.values['account']
+        user_password=request.values['password']
+    except:
+        return render_template("account.html")
     
     #註冊系統
-    """
     if(user_name==None or user_password==None):
-        return render_template("home.html",repeat='get_None')
+        return render_template("account.html")
     else:
-        return render_template("home.html",repeat='not_None')
-    """
+        return render_template("account.html")
+    
     #資料庫連線
-    """
+    
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
     
@@ -194,13 +203,14 @@ def login():
     if(user_name in all_user_name):
         cursor.close()
         conn.close()
-        return render_template("home.html",repeat='new_user false')
+        return render_template("account",login_status="error")
     #新的名稱則把資料記錄在user_data和restaurant_data裡
     sql="INSERT INTO user_data(user_name,user_password) VALUES(%s,%s)"
     val=(user_name,user_password)
     cursor.execute(sql,val)
     conn.commit()
     
+    #並記錄在restaurant_data中
     sql="INSERT INTO restaurant_data(user_name) VALUES(%s)"
     cursor.execute(sql,(user_name))
     conn.commit()
@@ -208,8 +218,8 @@ def login():
     cursor.close()
     conn.close()
     
-    return render_template("home.html",repeat='new_user success')
-    """
+    return render_template("account.html")
+    
 
 #登出系統
 @app.route("/logout",methods=['GET','POST'])

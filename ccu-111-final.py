@@ -259,7 +259,7 @@ def recommend():
     target_len=round(math.sqrt(target_len),4)
     all_data=[list(i) for i in all_data]
     
-    """
+    
     #協同過濾
     #   計算目標資料和其他資料的餘弦相似度
     #   並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳
@@ -296,7 +296,7 @@ def recommend():
         cursor.execute(sql)
         tmp_data=cursor.fetchall()
         recommend_data.append(list(tmp_data[0]))
-    
+    """
     #先抓餐廳名稱，再找出共同喜愛的幾家餐廳
     best_rest_rank=[];best_rest_name=[]
     sql="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='restaurant_data'"

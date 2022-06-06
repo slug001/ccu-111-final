@@ -299,7 +299,62 @@ def recommend():
     cursor.close()
     conn.close()
     
-    return render_template("home.html",recommend=rest_id)
+    data_for_web=[]
+    #再利用店家id尋找店家詳細資訊
+    for id in rest_id  
+        url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
+            .format(place_id=id)
+        payload={}
+        headers = {}
+        
+        #抓取餐廳資訊並改成json格式
+        ress = requests.request("GET", url, headers=headers, data=payload)
+        ress.json()
+        detail=json.loads(ress.text)
+        data_web=['name','website','phone','rating','open','photo','photo','photo']
+        try:
+            data_web[0]=detail['result']['name'][:20]
+        except KeyError:
+            data_web[0]="無資料"
+        try:
+            data_web[1]=detail['result']['website']
+        except KeyError:
+            data_web[1]="無資料"
+        try:
+            data_web[2]=detail['result']['formatted_phone_number']
+        except KeyError:
+            data_web[2]="無資料"
+        try:
+            data_web[3]=detail['result']['rating']
+        except KeyError:
+            data_web[3]="無資料"
+        try:
+            data_web[4]=detail['result']['opening_hours']['open_now']
+        except KeyError:
+            data_web[4]="無資料"
+        try:
+            data_web[5]=detail['result']['photos'][0]['photo_reference']
+        except KeyError:
+            data_web[5]="無資料"
+        try:
+            data_web[6]=detail['result']['photos'][1]['photo_reference']
+        except KeyError:
+            data_web[6]="無資料"
+        try:
+            data_web[7]=detail['result']['photos'][2]['photo_reference']
+        except KeyError:
+            data_web[7]="無資料"
+        
+        for i in range(5,8):
+            #如果圖片不存在則利用指定圖片代替
+            if(data_web[i]=="無資料"):
+                data_web[i]=="https://media.istockphoto.com/vectors/open-source-concept-trendy-icon-simple-line-colored-illustration-vector-id1160220663"
+            else:
+                data_web[i]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_web[i])
+        data_web[4]='營業中' if data_web[4]== True else '休息中'
+        data_for_web.append(data_web)
+        
+    return render_template("home.html",recommend=data_for_web)
 
 
 #line-bot

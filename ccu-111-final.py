@@ -137,14 +137,41 @@ def record():
 #登入頁面
 @app.route("/account", methods=['GET','POST'])
 def login():
-    if request.method =='GET':
+    if (request.method =='GET'):
         return render_template("account.html")
     try:
-        user_name=request.values['account_tt']
-        user_password=request.values['password']
+        user_name=request.values['account']
+        user_password=request.values['Password']
     except:
-        pass
-    return render_template("home.html",repeat=user_name)
+        return render_template("account.html")
+    #資料庫連線
+    conn = psycopg2.connect(database_url,sslmode='require')
+    cursor=conn.cursor()
+    sql="SELECT user_name FROM user_data"
+    cursor.execute(sql)
+    all_user_name=cursor.fetchall()
+   
+    #轉成list
+    all_user_name=[i[0] for i in all_user_name]
+    if(user_name in all_user_name):
+        sql="SELECT user_password FROM user_data WHERE user_name='{user_id}'".format(user_id=user_name)
+        cursor.execute(sql)
+        password=cursor.fetchall()
+        password=[i[0] for i in password]
+        cursor.close()
+        conn.close()
+        if(user_password==password):
+            return render_template("home.html",login_status="yes")
+        else:
+            return render_template("account.html",login_status="error")
+    else:
+        cursor.close()
+        conn.close()
+        return render_template("account.html",login_status="error")
+        
+    
+    
+    #註冊系統
     """
     if(user_name==None or user_password==None):
         return render_template("home.html",repeat='get_None')
@@ -152,7 +179,7 @@ def login():
         return render_template("home.html",repeat='not_None')
     """
     #資料庫連線
-    
+    """
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
     
@@ -182,6 +209,7 @@ def login():
     conn.close()
     
     return render_template("home.html",repeat='new_user success')
+    """
 
 #登出系統
 @app.route("/logout",methods=['GET','POST'])

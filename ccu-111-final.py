@@ -30,7 +30,6 @@ def home():
     if request.method =='GET':
         #抓取使用者資料
         session['session_password']='87cry'
-        session.clear()
         key=session.get('session_password')
         
         if (key == None):
@@ -180,7 +179,7 @@ def login():
 #登出系統
 @app.route("/logout",methods=['GET','POST'])
 def logout():
-    unset(session['session_password'])
+    session.clear()
     key=session.get('session_password')
         
     if (key == None):

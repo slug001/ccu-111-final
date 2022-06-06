@@ -340,8 +340,8 @@ def recommend():
     #關閉資料庫連線
     cursor.close()
     conn.close()
-    return render_template("recommend.html",login_status=login_status,test=rest_id)
-    """
+
+    
     data_for_web=[len(rest_id)]
     #再利用店家id尋找店家詳細資訊
     for id in rest_id  :
@@ -400,9 +400,8 @@ def recommend():
     data_for_web_str=''
     for i in data_for_web:
         data_for_web_str+=str(i)
-    return render_template("recommend.html",login_status=login_status)
     return render_template("recommend.html",recommendData=data_for_web_str)
-    """
+    
 
 #line-bot
 #抓User_id

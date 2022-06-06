@@ -290,7 +290,7 @@ def recommend():
         elif(other_len>0 and all_cos>0):
             max_cos.append(final_cos)
             max_name.append(i[0])   
-    """
+    
     #找出相似的使用者後再找出他們資料庫中的評分資料
     recommend_data=[]
     for name in max_name:
@@ -336,11 +336,11 @@ def recommend():
         cursor.execute(sql)
         id=cursor.fetchall()
         rest_id.append(id[0][0])
-    """
+    
     #關閉資料庫連線
     cursor.close()
     conn.close()
-    return render_template("recommend.html",login_status=login_status,test=all_data)
+    return render_template("recommend.html",login_status=login_status,test=rest_id)
     """
     data_for_web=[len(rest_id)]
     #再利用店家id尋找店家詳細資訊

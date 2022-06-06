@@ -176,6 +176,20 @@ def login():
     
     return render_template("home.html",repeat='new_user success')
 
+#登出系統
+@app.route("/logout",methods=['GET','POST'])
+def logout():
+    unset(session['session_password'])
+    key=session.get('session_password')
+        
+    if (key == None):
+        login_status='No'
+        login_account='小魔女最討厭來路不明的怪叔叔了'
+    else:
+        login_status='Yes'
+        login_account=key
+    return render_template("home.html",repeat=login_status+login_account)
+
 #推薦系統
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():

@@ -299,7 +299,7 @@ def recommend():
     cursor.close()
     conn.close()
     
-    data_for_web=[]
+    data_for_web=[len(rest_id)]
     #再利用店家id尋找店家詳細資訊
     for id in rest_id  :
         url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\

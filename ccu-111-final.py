@@ -167,7 +167,7 @@ def login():
     else:
         cursor.close()
         conn.close()
-        return render_template("account.html",login_status="error")
+        return render_template("account.html",login_status="yes")
         
     
     

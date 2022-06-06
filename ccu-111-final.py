@@ -245,7 +245,7 @@ def recommend():
     cursor.execute(sql)
     target_data=cursor.fetchall()
     
-    """
+    
     #計算資料長度和轉換格式
     target_len=0
     target_data=[list(i) for i in target_data]
@@ -259,7 +259,7 @@ def recommend():
     target_len=round(math.sqrt(target_len),4)
     all_data=[list(i) for i in all_data]
     
-
+    """
     #協同過濾
     #   計算目標資料和其他資料的餘弦相似度
     #   並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳

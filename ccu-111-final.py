@@ -259,7 +259,7 @@ def recommend():
     target_len=round(math.sqrt(target_len),4)
     all_data=[list(i) for i in all_data]
     
-    
+    """
     #協同過濾
     #   計算目標資料和其他資料的餘弦相似度
     #   並找出最相近的五位使用者，在近一步找出共同喜歡的餐廳
@@ -289,7 +289,7 @@ def recommend():
         elif(other_len>0 and all_cos>0):
             max_cos.append(final_cos)
             max_name.append(i[0])   
-    """
+    
     #找出相似的使用者後再找出他們資料庫中的評分資料
     recommend_data=[]
     for name in max_name:

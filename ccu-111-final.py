@@ -169,7 +169,7 @@ def login():
         conn.close()
         return render_template("account.html",login_status="error")
         
-    
+    """
 @app.route("/new_account", methods=['GET','POST'])
 def login():
     #嘗試獲取資料
@@ -220,7 +220,7 @@ def login():
     
     return render_template("account.html")
     
-
+    """
 #登出系統
 @app.route("/logout",methods=['GET','POST'])
 def logout():

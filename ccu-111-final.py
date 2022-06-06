@@ -29,10 +29,10 @@ app.config['SECRET_KEY']='ben9709830018'
 def check_login():
     key=session.get('session_password')
     if (key == None):
-        login_status='No'
+        login_status='no'
         login_account='小魔女最討厭來路不明的怪叔叔了'
     else:
-        login_status='Yes'
+        login_status='yes'
         login_account=key
     return login_status,login_account
 
@@ -161,6 +161,7 @@ def login():
         cursor.close()
         conn.close() 
         if(user_password==password[0]):
+            session['session_password']=user_name
             return render_template("home.html",login_status="yes")
         else:
             return render_template("account.html",login_status="error")
@@ -231,7 +232,7 @@ def logout():
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
     login_status,login_account=check_login()
-    #name=request.values['search_name']
+
     
     #先抓取資料庫的資料
     conn = psycopg2.connect(database_url,sslmode='require')
@@ -395,8 +396,11 @@ def recommend():
                 data_web[i]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=250&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_web[i])
         data_web[4]='營業中' if data_web[4]== True else '休息中'
         data_for_web.extend(data_web)
-    data_for_web=str(data_for_web).strip('[]')
-    return render_template("recommend.html",recommendData=data_for_web)
+    data_for_web_str=''
+    for i in data_for_web:
+        data_for_web_str+=str(i)
+    
+    return render_template("recommend.html",recommendData=data_for_web_str)
 
 
 #line-bot

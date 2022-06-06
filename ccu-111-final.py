@@ -562,7 +562,7 @@ def handle_message(event):
         final_data=""
         for i in record_data:
             final_data+="日期 :{day}\n店家名稱 :{name}\n評分 :{rank}\n"\
-                .format(day=str(i[3]),name=i[1],rank=i[2])
+                .format(day=str(i[3][:-6]),name=i[1],rank=i[2])
         #關閉資料庫
         cursor.close()
         conn.close()

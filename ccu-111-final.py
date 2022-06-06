@@ -160,6 +160,7 @@ def login():
         password=[i[0] for i in password]
         cursor.close()
         conn.close()
+        return render_template("account.html",test=password)
         if(user_password==password):
             return render_template("home.html",login_status="yes")
         else:
@@ -167,7 +168,7 @@ def login():
     else:
         cursor.close()
         conn.close()
-        return render_template("account.html",login_status="yes")
+        return render_template("account.html",login_status="error")
         
     
     

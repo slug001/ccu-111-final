@@ -159,9 +159,8 @@ def login():
         password=cursor.fetchall()
         password=[i[0] for i in password]
         cursor.close()
-        conn.close()
-        return render_template("account.html",test=password)
-        if(user_password==password):
+        conn.close() 
+        if(user_password==password[0]):
             return render_template("home.html",login_status="yes")
         else:
             return render_template("account.html",login_status="error")

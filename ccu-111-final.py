@@ -41,16 +41,6 @@ def home():
     if request.method =='GET':
         #抓取使用者資料
         session['session_password']='87cry'
-        """
-        key=session.get('session_password')
-        
-        if (key == None):
-            login_status='No'
-            login_account='小魔女最討厭來路不明的怪叔叔了'
-        else:
-            login_status='Yes'
-            login_account=key
-        """
         login_status,login_account=check_login()
         
         
@@ -194,15 +184,7 @@ def login():
 @app.route("/logout",methods=['GET','POST'])
 def logout():
     session.clear()
-    key=session.get('session_password')
-        
-    if (key == None):
-        login_status='No'
-        login_account='小魔女最討厭來路不明的怪叔叔了'
-    else:
-        login_status='Yes'
-        login_account=key
-    return render_template("home.html",repeat=login_status+login_account)
+    return render_template("login.html")
 
 #推薦系統
 @app.route("/recommend", methods=['GET','POST'])

@@ -232,12 +232,11 @@ def logout():
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
     login_status,login_account=check_login()
-    return render_template("recommend.html")
     
     #先抓取資料庫的資料
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
-
+    
     sql="SELECT * FROM restaurant_data "
     cursor.execute(sql)
     all_data=cursor.fetchall()
@@ -398,7 +397,7 @@ def recommend():
     data_for_web_str=''
     for i in data_for_web:
         data_for_web_str+=str(i)
-    
+    return render_template("recommend.html",login_status=login_status)
     return render_template("recommend.html",recommendData=data_for_web_str)
 
 

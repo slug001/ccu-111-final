@@ -326,7 +326,7 @@ def recommend():
         else:
             best_rest_rank.append(final_rank)
             best_rest_name.append(all_restaurant_name[i])
-    
+    """
     rest_id=[]
     #尋找店家id
     for name in best_rest_name:
@@ -334,11 +334,12 @@ def recommend():
         cursor.execute(sql)
         id=cursor.fetchall()
         rest_id.append(id[0][0])
-        
+        """
     #關閉資料庫連線
     cursor.close()
     conn.close()
-    return render_template("recommend.html")
+    return render_template("recommend.html",login_status=login_status)
+    """
     data_for_web=[len(rest_id)]
     #再利用店家id尋找店家詳細資訊
     for id in rest_id  :
@@ -399,7 +400,7 @@ def recommend():
         data_for_web_str+=str(i)
     return render_template("recommend.html",login_status=login_status)
     return render_template("recommend.html",recommendData=data_for_web_str)
-
+    """
 
 #line-bot
 #抓User_id

@@ -135,11 +135,10 @@ def record():
 
 
 #登入頁面
-@app.route("/login", methods=['GET','POST'])
+@app.route("/account", methods=['GET','POST'])
 def login():
     if request.method =='GET':
-        return render_template("login.html")
-    user_name="begin"
+        return render_template("account.html")
     try:
         user_name=request.values['account_tt']
         user_password=request.values['password']

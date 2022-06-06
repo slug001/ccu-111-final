@@ -538,7 +538,7 @@ def handle_message(event):
         message = TextSendMessage(text = return_text)
         line_bot_api.reply_message(event.reply_token, message)
         
-    #尋找過去紀錄
+    #尋找過去飲食紀錄
     elif event.message.text == "record":
         #先找出使用者user_id
         user_id=User_id(event)
@@ -553,11 +553,17 @@ def handle_message(event):
         user_name=cursor.fetchall()
         user_name=user_name[0][0]
         
+        #找出名稱後再找出最近飲食紀錄，找最近10筆
+        sql="SELECT * FROM history_eat WHERE user_name='{user_name}' ORDER BY day DESC LIMIT 10 ".format(user_name=user_name)
+        cursor.execute(sql)
+        record_data=cursor.fetchall()
+        record_data=[list(i) for i in record_data]
+        
         #關閉資料庫
         cursor.close()
         conn.close()
         
-        message = TextSendMessage(text = user_name)
+        message = TextSendMessage(text = str(record_data))
         line_bot_api.reply_message(event.reply_token, message)
         
     #資料==魔女食堂

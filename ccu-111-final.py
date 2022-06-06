@@ -301,7 +301,7 @@ def recommend():
     
     data_for_web=[]
     #再利用店家id尋找店家詳細資訊
-    for id in rest_id  
+    for id in rest_id  :
         url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
             .format(place_id=id)
         payload={}

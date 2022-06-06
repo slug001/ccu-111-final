@@ -141,7 +141,7 @@ def login():
         return render_template("account.html")
     try:
         user_name=request.values['account']
-        user_password=request.values['Password']
+        user_password=request.values['password']
     except:
         return render_template("account.html")
     #資料庫連線

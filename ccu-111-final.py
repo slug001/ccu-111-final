@@ -291,7 +291,7 @@ def recommend():
     cursor.close()
     conn.close()
     
-    return render_template("home.html",recommend=best_rest)
+    return render_template("home.html",recommend=best_rest_name)
 
 
 #line-bot

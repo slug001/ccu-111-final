@@ -97,7 +97,9 @@ def home():
 def nearby():
     login_status,login_account=check_login()
     eat=request.values['eat']
-    return render_template("home.html",test=eat)
+    lat=request.values['now_lat']
+    lng=request.values['now_lng']
+    return render_template("home.html",test=lat)
 
 
 #歷史紀錄頁面

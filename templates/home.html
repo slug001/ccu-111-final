@@ -209,6 +209,7 @@
     function successCallback(position){
         now_lat=position.coords.latitude
         now_lng=position.coords.longitude
+        initMap()
     }
     function initMap() {
         var map = new google.maps.Map(document.getElementById("map") , {

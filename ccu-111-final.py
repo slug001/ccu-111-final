@@ -91,14 +91,14 @@ def home():
 
         return render_template("home.html",login_status=login_status)
 
-"""    
+   
 #尋找附近吃的
-@app.route("/nearby",method['GET','POST'])
+@app.route("/nearby",methods=['GET','POST'])
 def nearby():
     login_status,login_account=check_login()
     eat=request.values['eat']
     return render_template("home.html",test=eat)
-"""
+
 
 #歷史紀錄頁面
 @app.route("/record",methods=['GET'])

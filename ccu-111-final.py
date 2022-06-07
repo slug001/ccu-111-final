@@ -229,7 +229,7 @@ def newAccount():
 @app.route("/logout",methods=['GET','POST'])
 def logout():
     session.clear()
-    return render_template("login.html")
+    return render_template("account.html")
 
 #推薦系統
 @app.route("/recommend", methods=['GET','POST'])

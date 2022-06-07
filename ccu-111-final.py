@@ -737,8 +737,8 @@ def handle_message(event):
             except:
                 return_text=tmp
         else:
-            #return_text='小魔女最討厭來路不明的怪叔叔了'
-            return_text=all_userid
+            return_text='小魔女最討厭來路不明的怪叔叔了'
+           # return_text=all_userid
             
         cursor.close()
         conn.close()

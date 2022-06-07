@@ -39,7 +39,8 @@ def check_login():
 @app.route('/', methods=['GET','POST'])
 def home():
     if request.method =='GET':
-        return render_template("home.html")
+        login_status,login_account=check_login()
+        return render_template("home.html",login_status=login_status)
     else:
         login_status,login_account=check_login()
         #抓取資料

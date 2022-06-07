@@ -22,7 +22,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 #設定flask 密碼、金鑰 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='g' )
 app.config['SECRET_KEY']='ben9709830018'
 
 #檢查是否登入

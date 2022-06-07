@@ -40,11 +40,11 @@ def check_login():
 def home():
     if request.method =='GET':
         #抓取使用者資料
-        session['session_password']='2'
-        login_status,login_account=check_login()
+        #session['session_password']='2'
+        #login_status,login_account=check_login()
         
         
-        return render_template("home.html",repeat=login_status+login_account)
+        return render_template("account.html")
     else:
         #user_position=request.values['input']
 
@@ -100,6 +100,9 @@ def home():
 #歷史紀錄頁面
 @app.route("/record",methods=['GET'])
 def record():
+    login_status,login_account=check_login()
+    if(login_status!="yes"):
+        return render_template("account.html")
     #這邊試著把離現在最近的十筆資料抓出來
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
@@ -132,7 +135,7 @@ def record():
     #    history_data_str+=str(i)
     #history_data=str(history_data).strip('[]')    
     #history_data=str(history_data)
-    return render_template("record.html",historyData=history_data_str)
+    return render_template("record.html",historyData=history_data_str,login_status=login_status)
 
 
 #登入頁面

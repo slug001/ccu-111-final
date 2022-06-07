@@ -176,7 +176,8 @@ def login():
         
     
 @app.route("/newAccount", methods=['GET','POST'])
-def login():
+def newAccount():
+    
     #嘗試獲取資料
     if (request.method =='GET'):
         return render_template("account.html")

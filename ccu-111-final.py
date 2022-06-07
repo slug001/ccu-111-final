@@ -83,7 +83,7 @@ def home():
             conn.commit()
             cursor.close()
             conn.close()
-            return render_template("home.html",repeat=time_text)
+            return render_template("home.html",login_status=login_status)
         
         cursor.close()
         conn.close()

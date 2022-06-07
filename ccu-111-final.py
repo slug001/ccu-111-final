@@ -176,7 +176,7 @@ def nearby():
     data_for_web_str=",".join(data_for_web)
     data_for_web_str=str(data_num)+","+data_for_web_str
  
-    return render_template("home.html",login_status=login_status,test=data_for_web_str)
+    return render_template("home.html",login_status=login_status,recommandData=data_for_web_str)
 
 
 #歷史紀錄頁面

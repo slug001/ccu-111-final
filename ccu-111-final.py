@@ -126,9 +126,10 @@ def record():
             history_data[i]=''
             
     #再轉成字串
-    history_data_str=''
-    for i in history_data:
-        history_data_str+=str(i)
+    history_data=[str(i) for i in history_data]
+    history_data_str=",".join(history_data)
+    #for i in history_data:
+    #    history_data_str+=str(i)
     #history_data=str(history_data).strip('[]')    
     #history_data=str(history_data)
     return render_template("record.html",historyData=history_data_str)

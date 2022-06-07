@@ -180,21 +180,18 @@ def newAccount():
     
     #嘗試獲取資料
     if (request.method =='GET'):
-        return render_template("account.html",test="1")
+        return render_template("account.html")
     try:
         user_name=request.values['account']
         user_password=request.values['password']
     except:
-        return render_template("account.html",test="2")
+        return render_template("account.html")
     
     #註冊系統
     if(user_name==None or user_password==None):
-        return render_template("account.html",test="3")
-    else:
-        return render_template("account.html",test="4")
+        return render_template("account.html")
     
     #資料庫連線
-    
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
     

@@ -77,7 +77,7 @@ def home():
         #如果使用者和餐廳都存在，更新評價
         
         if (user_name in all_user_name and restaurant_name in all_restaurant_name ):
-            sql="UPDATE restaurant_data SET {restaurant_name} = {rank} WHERE user_name='{user_name}'"\
+            sql="UPDATE restaurant_data SET '{restaurant_name}' = {rank} WHERE user_name='{user_name}'"\
                 .format(restaurant_name=restaurant_name,rank=rank,user_name=user_name)
             cursor.execute(sql)
             conn.commit()

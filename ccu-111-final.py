@@ -180,18 +180,18 @@ def newAccount():
     
     #嘗試獲取資料
     if (request.method =='GET'):
-        return render_template("account.html")
+        return render_template("account.html",test="1")
     try:
         user_name=request.values['account']
         user_password=request.values['password']
     except:
-        return render_template("account.html")
+        return render_template("account.html",test="2")
     
     #註冊系統
     if(user_name==None or user_password==None):
-        return render_template("account.html")
+        return render_template("account.html",test="3")
     else:
-        return render_template("account.html")
+        return render_template("account.html",test="4")
     
     #資料庫連線
     
@@ -209,7 +209,7 @@ def newAccount():
     if(user_name in all_user_name):
         cursor.close()
         conn.close()
-        return render_template("account.html",login_status="error")
+        return render_template("account.html",test="error")
     #新的名稱則把資料記錄在user_data和restaurant_data裡
     sql="INSERT INTO user_data(user_name,user_password) VALUES(%s,%s)"
     val=(user_name,user_password)
@@ -225,7 +225,7 @@ def newAccount():
     cursor.close()
     conn.close()
     
-    return render_template("account.html")
+    return render_template("account.html",test="5")
     
     
 #登出系統

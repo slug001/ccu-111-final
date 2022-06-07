@@ -202,14 +202,22 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw&callback=initMap" ></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
+    navigator.geolocation.getCurrentPosition(successCallback);  
+    var msg='';
+    var now_lat='';
+    var now_lng='';
+    function successCallback(position){
+        now_lat=position.coords.latitude
+        now_lng=position.coords.longitude
+    }
     function initMap() {
         var map = new google.maps.Map(document.getElementById("map") , {
-            center: { lat: 25.046891, lng: 121.516602 },//中心位置
+            center: { lat: now_lat, lng: now_lng },//中心位置
             zoom: 14,
         });
         //--------下面是呼叫一個新marker------
         var marker = new google.maps.Marker({
-            position: { lat: 25.046891, lng: 121.516602 }, //marker的放置位置
+            position: { lat: now_lat, lng: now_lng }, //marker的放置位置
             map: map //這邊的map指的是第3行的map變數
         });
     }

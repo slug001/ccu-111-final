@@ -317,6 +317,8 @@ def logout():
 @app.route("/recommend", methods=['GET','POST'])
 def recommend():
     login_status,login_account=check_login()
+    if(login_status!="yes"):
+        return render_template("account.html")
     
     #先抓取資料庫的資料
     conn = psycopg2.connect(database_url,sslmode='require')

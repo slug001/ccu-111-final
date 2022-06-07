@@ -99,7 +99,83 @@ def nearby():
     eat=request.values['eat']
     lat=request.values['now_lat']
     lng=request.values['now_lng']
-    return render_template("home.html",test=lat)
+    
+    #尋找附近的店家
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude}, {longitude}&radius=2000&keyword='{keyword}'&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
+        .format(latitude=lat,longitude=lng,keyword=eat)
+    payload={}
+    headers = {}
+        
+    #尋找附近店家
+    response = requests.request("GET", url, headers=headers, data=payload)
+    response.json()
+    res=json.loads(response.text)
+    
+    data_for_web=[]
+    data_num=0
+        
+    #整理店家資料[照片連結,名稱,地址,評分,電話,官網,是否營業]
+    for i in res['results']:
+        if(data_num>=10):
+                break
+        url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
+            .format(place_id=i['place_id'])
+        payload={}
+        headers = {}
+        
+        #抓取餐廳資訊並改成json格式
+        ress = requests.request("GET", url, headers=headers, data=payload)
+        ress.json()
+        detail=json.loads(ress.text)
+        data_web=['name','website','phone','rating','open','photo','photo','photo']
+        try:
+            data_web[0]=detail['result']['name'][:20]
+        except KeyError:
+            data_web[0]="無資料"
+        try:
+            data_web[1]=detail['result']['website']
+        except KeyError:
+            data_web[1]="無資料"
+        try:
+            data_web[2]=detail['result']['formatted_phone_number']
+        except KeyError:
+            data_web[2]="無資料"
+        try:
+            data_web[3]=detail['result']['rating']
+        except KeyError:
+            data_web[3]="無資料"
+        try:
+            data_web[4]=detail['result']['opening_hours']['open_now']
+        except KeyError:
+            data_web[4]="無資料"
+        try:
+            data_web[5]=detail['result']['photos'][0]['photo_reference']
+        except KeyError:
+            data_web[5]="無資料"
+        try:
+            data_web[6]=detail['result']['photos'][1]['photo_reference']
+        except KeyError:
+            data_web[6]="無資料"
+        try:
+            data_web[7]=detail['result']['photos'][2]['photo_reference']
+        except KeyError:
+            data_web[7]="無資料"
+        
+        data_web[1]="https://www.foodpanda.com.tw/" if data_web[1]=="無資料" else data_web[1]
+        for i in range(5,8):
+            #如果圖片不存在則利用指定圖片代替
+            if(data_web[i]=="無資料"):
+                data_web[i]=="https://media.istockphoto.com/vectors/open-source-concept-trendy-icon-simple-line-colored-illustration-vector-id1160220663"
+            else:
+                data_web[i]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=250&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_web[i])
+        data_web[4]='營業中' if data_web[4]== True else '休息中'
+        data_for_web.extend(data_web)
+        data_num+=1
+        
+    data_for_web=[str(i) for i in data_for_web]
+    data_for_web_str=",".join(data_for_web)
+ 
+    return render_template("home.html",login_status=login_status,recommandData=data_for_web_str)
 
 
 #歷史紀錄頁面

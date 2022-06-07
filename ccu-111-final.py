@@ -39,19 +39,13 @@ def check_login():
 @app.route('/', methods=['GET','POST'])
 def home():
     if request.method =='GET':
-        #抓取使用者資料
-        #session['session_password']='2'
-        #login_status,login_account=check_login()
-        
-        
-        return render_template("account.html")
+        return render_template("home.html")
     else:
-        #user_position=request.values['input']
-
+        login_status,login_account=check_login()
         #抓取資料
-        user_name=request.values['user_name']
-        restaurant_name=request.values['restaurant_name']
-        rank=request.values['rank']
+        user_name=login_account
+        restaurant_name=request.values['eat']
+        rank=request.values['rate']
 
         #資料庫連線
         conn = psycopg2.connect(database_url,sslmode='require')
@@ -94,7 +88,7 @@ def home():
         cursor.close()
         conn.close()
 
-        return render_template("home.html",repeat='false')
+        return render_template("home.html",login_status=login_status)
 
 
 #歷史紀錄頁面
@@ -222,7 +216,7 @@ def newAccount():
     cursor.close()
     conn.close()
     
-    return render_template("account.html",test="5")
+    return render_template("account.html")
     
     
 #登出系統

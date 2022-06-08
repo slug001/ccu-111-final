@@ -1,0 +1,71 @@
+{%extends "base.html"%}
+
+{% block head %}
+<title>魔女食堂(紀錄)</title>
+<style>
+    .shop-field{
+        margin-top: 15px;margin-left: 15%;margin-right: 15%;
+        border-radius: 4px;
+        border: 2px solid black;
+        background-color: rgb(222, 255, 222);
+        font-size: 18px;
+        padding-left: 35px; padding-right: 35px;
+    }
+    .upper-field{
+        border-bottom: 1px solid #dedede;
+        padding-top: 8px; padding-bottom: 8px;
+    }
+    .downer-field{
+        display: flex;
+        padding-top: 7px; padding-bottom: 7px;
+        font-size: 20px;
+    }
+    #no-result{
+        height: 75px;
+        margin-left: 10%; margin-right: 10%;
+        background-color: #d9d9d9;
+        display: none;
+        color: #1f1f1f;
+        justify-content: center;align-items: center;
+    }
+</style>
+{% endblock %}
+
+
+{% block main %}
+<div style="margin: 50px;"><h3 style="text-align: center;">評分歷史紀錄</h3></div>
+
+<div id="shop-example" style="display: none;">
+    <div class="shop-field">
+        <div class="upper-field">
+            <span>時間: 我怎麼知道</span>
+        </div>
+        <div class="downer-field">
+            <span style="width: 85%;">餐廳名稱: 小魔女</span><span>我的評分: 滿分</span>
+        </div>
+    </div>
+</div>
+
+<div id="new-shop" style="margin-bottom: 35px;"></div>
+
+<div id="no-result"><div style="font-weight: bold; font-size: 23px;">No results found</div><img src="/g/cat_bad.png" /></div>
+
+<div id="input" style="display: none;">{{historyData}}</div>
+
+<script>
+    let input = document.querySelector('#input').innerText;
+    let array = input.split(',');
+    let runtime = array[0];
+    for(let i=0; i<runtime; i++){
+        let j = i*3;
+        let newdiv = document.createElement('div');
+        newdiv.innerHTML = '<div class="shop-field"><div class="upper-field"><span>時間: '+array[j+3]+'</span></div><div class="downer-field"><span style="width: 85%;">餐廳名稱: '+array[j+1]+'</span><span>我的評分: '+array[j+2]+'</span></div></div>';
+        document.querySelector('#new-shop').append(newdiv);
+    }
+
+    let no_result = document.querySelector('#no-result');
+    if(!(runtime>0)){
+        no_result.style.display = 'flex'
+    }
+</script>
+{% endblock %}

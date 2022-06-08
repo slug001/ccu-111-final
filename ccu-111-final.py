@@ -188,7 +188,7 @@ def record():
     #這邊試著把離現在最近的十筆資料抓出來
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
-    sql="SELECT * FROM history_eat WHERE user_name='{user_name}' ORDER BY day DESC LIMIT 10 ".format(user_name='2')
+    sql="SELECT * FROM history_eat WHERE user_name='{user_name}' ORDER BY day DESC LIMIT 10 ".format(user_name=login_account)
     cursor.execute(sql)
     all_data=cursor.fetchall()
     cursor.close()

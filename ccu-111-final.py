@@ -297,7 +297,8 @@ def newAccount():
     
     #並記錄在restaurant_data中
     sql="INSERT INTO restaurant_data(user_name) VALUES(%s)"
-    cursor.execute(sql,(user_name))
+    val=(user_name)
+    cursor.execute(sql,val)
     conn.commit()
     
     #關閉連線

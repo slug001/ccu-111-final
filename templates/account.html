@@ -1,0 +1,85 @@
+{%extends "base.html"%}
+
+{% block head %}
+<title>魔女食堂(帳號管理)</title>
+<style>
+    .account-field{
+        margin-top: 60px;margin-left: 20%;margin-right: 20%;
+        padding-left: 15%;padding-right: 15%;padding-bottom: 15px;
+        border-radius: 40px;
+        border: 2px solid black;
+        background-color: rgb(255, 247, 254);
+    }
+    #login{
+        display: block;
+    }
+    #register{
+        display: none;
+    }
+</style>
+{% endblock %}
+
+
+{% block main %}
+<div class="account-field" id="login">
+    <h3 style="padding-top: 10px;text-align: center;margin-bottom: 25px;">登入(Login)</h3>
+    <form action="account" method="POST">
+        <div style="margin-bottom: 12px;">
+            帳號：<input style="width: 100%;" placeholder="Account" name="account" required></input><div id="error-msg" style="font-size: 8px; color: red; display: none;">帳號或密碼錯誤</div>
+        </div>
+        <div style="margin-bottom: 12px;">密碼：<input style="width: 100%;" placeholder="Password" type="password" name="password" required></input></div>
+        <button style="text-align: center; background-color: #04AA6D; height: 35px; width: 100%; margin-top: 20px; margin-bottom: 10px;">LOGIN</button>
+        <div>沒有帳號? <span onclick="register()" style="cursor: pointer; color: blue; text-decoration: underline;">點擊註冊</span></div> 
+    </form>
+</div>
+
+<div class="account-field" id="register">
+    <h3 style="padding-top: 10px;text-align: center;margin-bottom: 25px;">註冊(Register)</h3>
+    <form action="newAccount" method="POST">
+        <div style="margin-bottom: 12px;">
+            帳號：<input style="width: 100%;" placeholder="Account" name="account" required></input><div id="error-msg" style="font-size: 8px; color: red; display: none;">帳號已被使用</div>
+        </div>
+        <div style="margin-bottom: 12px;">密碼：<input style="width: 100%;" id="password" placeholder="Password" name="password" required></input></div>
+        <div style="margin-bottom: 12px;">確認密碼：<input style="width: 100%;" id="password-confirm" placeholder="Password Again" type="password" required></input></div>
+        <button style="text-align: center; background-color: #c78800; height: 35px; width: 100%; margin-top: 20px; margin-bottom: 10px;">REGISTER</button>
+        <div>已經有帳號了? <span onclick="login()" style="cursor: pointer; color: blue; text-decoration: underline;">點擊登入</span></div> 
+    </form>
+</div>
+
+<div id="input" style="display: none;">{{aqua}}</div>
+
+<script>
+    function register(){
+        let login = document.querySelector("#login");
+        let register = document.querySelector("#register");
+        login.style.display = "none";
+        register.style.display = "block";
+    }
+    function login(){
+        let login = document.querySelector("#login");
+        let register = document.querySelector("#register");
+        login.style.display = "block";
+        register.style.display = "none";
+    }
+
+    if(document.querySelector('#loginReady').innerText == 'error'){
+        document.querySelector('#error-msg').style.display = 'block';
+    }
+
+    if(document.querySelector('#aqua').innerText == 'bad'){
+        register();
+    }
+
+    let password = document.querySelector('#password');
+    let password_confirm = document.querySelector('#password-confirm');
+    function passwordConfirm(){
+        if(password.value == password_confirm.value){
+            password_confirm.setCustomValidity('');
+        }else{
+            password_confirm.setCustomValidity('你故意輸錯密碼嗎???');
+        }
+    }
+    password.onkeyup = passwordConfirm;
+    password_confirm.onkeyup = passwordConfirm;
+</script>
+{% endblock %}

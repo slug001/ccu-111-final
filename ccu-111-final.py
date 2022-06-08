@@ -303,7 +303,7 @@ def newAccount():
     #關閉連線
     cursor.close()
     conn.close()
-    
+    return "hi"
     return render_template("account.html")
     
     

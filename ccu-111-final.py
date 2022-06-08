@@ -272,7 +272,6 @@ def newAccount():
     #註冊系統
     if(user_name==None or user_password==None):
         return render_template("account.html")
-    return "hi"
     #資料庫連線
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()

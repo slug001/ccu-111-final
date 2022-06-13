@@ -15,6 +15,7 @@ import configparser
 import time
 import re
 
+#資料庫的url
 database_url='postgres://zlujzrtgrbvpgb:ba830f737f30a8309677d917becefb9295f1956a8521b478604e3e4e54c76bb1@ec2-54-165-90-230.compute-1.amazonaws.com:5432/d64qh26kv7tm2k'
 
 #啟用config
@@ -38,6 +39,7 @@ def check_login():
 
 @app.route('/', methods=['GET','POST'])
 def home():
+    #檢查一下請求的方式是什麼
     if request.method =='GET':
         login_status,login_account=check_login()
         return render_template("home.html",login_status=login_status)
@@ -52,7 +54,7 @@ def home():
         conn = psycopg2.connect(database_url,sslmode='require')
         cursor=conn.cursor()
         
-        #先新增歷史紀錄，記得抓現在的時間
+        #先新增歷史紀錄，記得抓現在的時間，因為是utc+8所以要+28800轉成正確的時區
         localtime=time.localtime(int(time.time())+28800)
         time_text= time.strftime("%Y-%m-%d %H:%M:%S", localtime)
         sql="INSERT INTO history_eat(user_name,restaurant_name,rank,day) VALUES(%s,%s,%s,%s)"
@@ -95,7 +97,9 @@ def home():
 #尋找附近吃的
 @app.route("/nearby",methods=['GET','POST'])
 def nearby():
+    #抓取登入狀態還有登入帳號
     login_status,login_account=check_login()
+    #想吃的東西、經度、緯度
     eat=request.values['eat']
     lat=request.values['now_lat']
     lng=request.values['now_lng']
@@ -116,6 +120,7 @@ def nearby():
         
     #整理店家資料[照片連結,名稱,地址,評分,電話,官網,是否營業]
     for i in res['results']:
+        #取排名前十的店家就好
         if(data_num>=10):
                 break
         url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&language=zh-TW&key=AIzaSyCiDz6zKepKyIrKlfFeYYagsapLT1Xa7qw"\
@@ -161,6 +166,8 @@ def nearby():
         except KeyError:
             data_web[7]="無資料"
         
+        
+        #這邊修改一下資料，像是不是營業中就是休息中，圖片不存在則用其他東西代替，那圖片找到的是photo_id要利用api轉成照片
         data_web[1]="https://www.foodpanda.com.tw/" if data_web[1]=="無資料" else data_web[1]
         for i in range(5,8):
             #如果圖片不存在則利用指定圖片代替
@@ -172,6 +179,7 @@ def nearby():
         data_for_web.extend(data_web)
         data_num+=1
         
+    #先把資料轉成str再用join()接起來
     data_for_web=[str(i) for i in data_for_web]
     data_for_web_str=",".join(data_for_web)
     data_for_web_str=str(data_num)+","+data_for_web_str
@@ -213,10 +221,6 @@ def record():
     #再轉成字串
     history_data=[str(i) for i in history_data]
     history_data_str=",".join(history_data)
-    #for i in history_data:
-    #    history_data_str+=str(i)
-    #history_data=str(history_data).strip('[]')    
-    #history_data=str(history_data)
     return render_template("record.html",historyData=history_data_str,login_status=login_status)
 
 
@@ -226,6 +230,7 @@ def login():
     if (request.method =='GET'):
         return render_template("account.html")
     try:
+        #抓取用post傳過來的變數
         user_name=request.values['account']
         user_password=request.values['password']
     except:
@@ -243,10 +248,12 @@ def login():
         sql="SELECT user_password FROM user_data WHERE user_name='{user_id}'".format(user_id=user_name)
         cursor.execute(sql)
         password=cursor.fetchall()
+        #抓出我們要的資料，因為只有一筆所以用index0來抓
         password=[i[0] for i in password]
         cursor.close()
         conn.close() 
         if(user_password==password[0]):
+            #抓取使用者名稱
             session['session_password']=user_name
             return render_template("home.html",login_status="yes")
         else:
@@ -319,7 +326,7 @@ def recommend():
     if(login_status!="yes"):
         return render_template("account.html")
     
-    #先抓取資料庫的資料
+    #先抓取資料庫的餐廳評分資料資料
     conn = psycopg2.connect(database_url,sslmode='require')
     cursor=conn.cursor()
     
@@ -338,6 +345,7 @@ def recommend():
     target_data=target_data[0]
     restaurant_len=int(len(target_data))
     
+    #如果有評分則計算長度
     for i in range(1,restaurant_len):
         if(target_data[i]!= None):
             target_len+=int(target_data[i])*int(target_data[i])
@@ -352,7 +360,7 @@ def recommend():
     max_cos=[]
     max_name=[]
     for i in all_data:
-        
+        #分別是其他向量的長度，全部內積純量相加，純量相加後再除以各自長度相乘
         other_len=0;all_cos=0;final_cos=0
         if(i[0]==login_account):
             continue
@@ -483,6 +491,7 @@ def recommend():
                 data_web[i]="https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=250&photo_reference={photo_id}&key=AIzaSyBx2V_QiQ5aXZlV5RxvPOUqC90B511Kv0A".format(photo_id=data_web[i])
         data_web[4]='營業中' if data_web[4]== True else '休息中'
         data_for_web.extend(data_web)
+    #轉換成全部都是字串，再利用join結合起來
     data_for_web=[str(i) for i in data_for_web]
     data_for_web_str=",".join(data_for_web)
 
@@ -563,6 +572,7 @@ a = [['https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=3
 def handle_message(event):
     #如果是文字訊息則看使否有啟動字元
     try:
+        #利用Re辨認出我們的指令
         tmp_text=event.message.text
         match = re.search(r'^(A|a){1}(ccount:){1}', tmp_text)
         recommend=re.search(r'^(R|r){1}(ecommend:){1}', tmp_text)
@@ -582,6 +592,7 @@ def handle_message(event):
             .format(user_id=user_id)
         cursor.execute(sql)
         favorite=cursor.fetchall()
+        #先把tuple轉成list在用index抓出來
         favorite=[list(i) for i in favorite]
         favorite=[i[0] for i in favorite]     
         
@@ -765,6 +776,7 @@ def handle_message(event):
         record_data=cursor.fetchall()
         record_data=[list(i) for i in record_data]
         
+        #利用字串相加來製作資料
         final_data=""
         for i in record_data:
             day=str(i[3])
@@ -777,6 +789,7 @@ def handle_message(event):
         message = TextSendMessage(text = final_data)
         line_bot_api.reply_message(event.reply_token, message)
         
+    #測試用資料
     #資料==魔女食堂
     elif event.message.text == "魔女食堂":
         line_bot_api.reply_message( event.reply_token,TemplateSendMessage(
